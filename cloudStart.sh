@@ -1,4 +1,4 @@
 #!/bin/bash
 #Deploy service
-cd edge-fog-cloud/cloud/
+cd cloud/
 gradle run &
