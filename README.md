@@ -1,9 +1,11 @@
-# Fog System
-Layer intermedio tra l'**edge** e il **cloud** **centralizzato**.
-
-Non è un livello obbligato, ma la sua presenza abilita a funzionalità molto importanti,
-come lo shadowing dell'edge, mascherando la complessità della casina e abilitando una comunicazione più robusta e stabile con i client.
-Questo livello richiede maggiori risorse rispetto all'edgee ad uno stesso Fog possono essere collegati più edge e
+# Cloud System
+Livello in cui confluiscono tutte le informazioni relative a tutti gli edge. 
+Il cloud è altamente scalabile, per gestire il carico di richieste che riceve in ogni istante. 
+Con i digital twin sempre aggiornati di ogni casina è possibile aggregare dati su larga scala, 
+oltre ad effettuare analisi di dati sia su scala temporale che spaziale. 
+Grazie alle informazioni che riceve e alle sue risorse computazionali, il cloud mantiene uno storico dei dati al fine di poter visualizzare le condizioni atmosferiche di un particolare territorio nel passato.
+Il cloud può essere interrogato il cloud da qualsiasi computer della rete relativamente alle casine, al loro storico ed alle loro informazioni aggregate, 
+questo indirizza il progetto verso una soluzione open data, in cui i dati raccolti dagli asset fisici presenti sul territorio sono disponibili a chiunque ne sia interessato.
 
 #### Software Info
 
