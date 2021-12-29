@@ -27,7 +27,7 @@ Questo livello richiede maggiori risorse rispetto all'edgee ad uno stesso Fog po
 
 ##Requirements
 
-Il sistema **_cloud_** è messo in esecuzione su un VM con i seguenti requisiti:
+Il **_cloud_** è messo in esecuzione su un VM con i seguenti requisiti:
 
 - 32 GB RAM
 - 16 core logici  (core e RAM sono riconfigurabili)
