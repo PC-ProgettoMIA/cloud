@@ -40,14 +40,14 @@ Il **_cloud_** è messo in esecuzione su un VM con i seguenti requisiti:
 Il server è sempre online ed il cloud sempre attivo, ma nel caso di arresto del server riavvio di tale, seguire i seguenti passaggi:
 ```bash
 #Abilitare i permessi per l'esecuzione degli script.
-chmod 755 docker_start.sh
-chmod 755 cloud_start.sh
+chmod 755 docker-ditto.sh
+chmod 755 cloud.sh
 
 #Esecuzione per l'avvio del servizio docker Eclipse Ditto
-./docker_start.sh
+./docker-ditto.sh
 
 #Esecuzione per l'avvio del middleware.
-./cloud_start.sh
+./cloud.sh
 ```
 
 In questo modo viene effettuato il deployment solo di:
