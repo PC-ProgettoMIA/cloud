@@ -126,7 +126,7 @@ public class ClimateStore {
         try {
             list = CsvReadWrite.getDailyClimateSurvey(thingId);
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.info(e.toString());
         }
         List<InstantClimateData> averageList = list.stream()
                 .filter(x -> CalendarCheck.isTimestampInCurrentDay(DateConversion.stringToTimestamp(x.getTimestamp())))
@@ -184,7 +184,7 @@ public class ClimateStore {
             }
             return avgClimateData;
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.info(e.toString());
         }
         return null;
     }
@@ -202,7 +202,7 @@ public class ClimateStore {
                     .map(x -> new Tuple<>(x.getTimestamp(), x.isRain()))
                     .collect(Collectors.toList());
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.info(e.toString());
         }
         return null;
     }
@@ -265,7 +265,7 @@ public class ClimateStore {
             }
             return finalList;
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.info(e.toString());
         }
         return null;
     }
@@ -282,14 +282,14 @@ public class ClimateStore {
             try {
                 list = CsvReadWrite.getDailyClimateSurvey(thingId);
             } catch (IOException e) {
-                e.printStackTrace();
+                Log.info(e.toString());
             }
         }
         try {
             list.add(data);
             CsvReadWrite.setDailyClimateSurvey(list, thingId);
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.info(e.toString());
         }
     }
 
@@ -308,7 +308,7 @@ public class ClimateStore {
                             .collect(Collectors.toList()),
                     thingId);
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.info(e.toString());
         }
     }
 
@@ -328,7 +328,7 @@ public class ClimateStore {
             updateList.add(lastDay);
             CsvReadWrite.setHistoryClimateSurvey(updateList);
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.info(e.toString());
         }
     }
 
@@ -343,7 +343,7 @@ public class ClimateStore {
                     .filter(x -> CalendarCheck.isDateInCurrentMonth(DateConversion.stringToTimestamp(x.getTimestamp())))
                     .collect(Collectors.toList()));
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.info(e.toString());
         }
     }
 
