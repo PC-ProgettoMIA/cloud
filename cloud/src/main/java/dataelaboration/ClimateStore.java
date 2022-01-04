@@ -1,7 +1,7 @@
 package dataelaboration;
 
-import dataelaboration.model.DailyClimateData;
-import dataelaboration.model.InstantClimateData;
+import dataelaboration.model.csvmodel.DailyClimateData;
+import dataelaboration.model.csvmodel.InstantClimateData;
 import dataelaboration.model.Tuple;
 import dataelaboration.utility.*;
 

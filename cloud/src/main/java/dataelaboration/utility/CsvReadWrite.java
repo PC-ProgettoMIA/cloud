@@ -4,8 +4,8 @@ import com.opencsv.CSVWriter;
 import com.opencsv.bean.*;
 import com.opencsv.exceptions.CsvDataTypeMismatchException;
 import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
-import dataelaboration.model.DailyClimateData;
-import dataelaboration.model.InstantClimateData;
+import dataelaboration.model.csvmodel.DailyClimateData;
+import dataelaboration.model.csvmodel.InstantClimateData;
 
 import java.io.BufferedReader;
 import java.io.IOException;

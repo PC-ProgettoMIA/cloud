@@ -1,4 +1,4 @@
-package dataelaboration.model;
+package dataelaboration.model.csvmodel;
 
 import com.opencsv.bean.CsvBindByPosition;
 

@@ -1,7 +1,7 @@
 package dataelaboration.utility.json;
 
 import dataelaboration.model.Coordinate;
-import dataelaboration.model.DailyClimateData;
+import dataelaboration.model.csvmodel.DailyClimateData;
 import dataelaboration.model.Tuple;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;

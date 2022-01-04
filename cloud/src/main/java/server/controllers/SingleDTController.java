@@ -1,7 +1,7 @@
 package server.controllers;
 
 import dataelaboration.ClimateStore;
-import dataelaboration.model.InstantClimateData;
+import dataelaboration.model.csvmodel.InstantClimateData;
 import dataelaboration.utility.json.JsonToObjectUtility;
 import io.vertx.core.MultiMap;
 import io.vertx.core.buffer.Buffer;

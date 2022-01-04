@@ -1,7 +1,7 @@
 package server.controllers;
 
 import dataelaboration.ClimateStore;
-import dataelaboration.model.DailyClimateData;
+import dataelaboration.model.csvmodel.DailyClimateData;
 import dataelaboration.utility.json.ObjectToJsonUtility;
 import io.vertx.core.http.HttpServerResponse;
 import io.vertx.ext.web.RoutingContext;
