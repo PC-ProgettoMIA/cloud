@@ -50,7 +50,8 @@ public class DataController {
                     JsonArray items = result.getJsonArray("items");
                     for (int i = 0; i < items.size(); i++) {
                         String thingId = items.getJsonObject(i).getString("thingId");
-                        Coordinate coordinate = JsonToObjectUtility.getJsonCoordinates(items.getJsonObject(i));
+                        //Coordinate coordinate = JsonToObjectUtility.getJsonCoordinates(items.getJsonObject(i));
+                        Coordinate coordinate = new Coordinate(12.2, 13.4);
                         System.out.println("coordinate " + coordinate.getLongitude() + " e " + coordinate.getLatitude());
                         list.add(new Tuple<>(thingId, new Coordinate(coordinate.getLatitude(), coordinate.getLongitude())));
                     }
