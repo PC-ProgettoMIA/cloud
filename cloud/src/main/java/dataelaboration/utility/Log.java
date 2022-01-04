@@ -24,8 +24,8 @@ public class Log {
         log.info(msg);
     }
 
-    public static void main(String[] args) {
-        Log.info("Ciao");
-
-    }
+//    public static void main(String[] args) {
+//        Log.info("Ciao");
+//
+//    }
 }
