@@ -51,11 +51,12 @@ public class ClimateStore {
      * @return average of last day climate.
      */
     public DailyClimateData lastDayAverageClimateData(final String thingId) {
+
         List<InstantClimateData> list = new ArrayList<>();
         try {
             list = CsvReadWrite.getDailyClimateSurvey(thingId);
         } catch (IOException e) {
-            Log.info(e.getMessage());
+            e.printStackTrace();
         }
 
         List<InstantClimateData> averageList = list.stream()
@@ -78,6 +79,38 @@ public class ClimateStore {
             avgClimateData.setAvgwind(((float) averageList.stream().mapToDouble(InstantClimateData::getWind).average().getAsDouble()));
             avgClimateData.setMaxwind(((float) averageList.stream().mapToDouble(InstantClimateData::getWind).max().getAsDouble()));
             avgClimateData.setAvguv(((float) averageList.stream().mapToDouble(InstantClimateData::getUv).average().getAsDouble()));
+        /*for (InstantClimateData climateDatum : averageList) {
+            avgClimateData.setAvgtemp(climateDatum.getTemperature() + avgClimateData.getAvgtemp());
+            if (avgClimateData.getMintemp() > climateDatum.getTemperature() || avgClimateData.getMintemp() == Float.MIN_VALUE)
+                avgClimateData.setMintemp(climateDatum.getTemperature());
+            if (avgClimateData.getMaxtemp() < climateDatum.getTemperature() || avgClimateData.getMaxtemp() == Float.MIN_VALUE)
+                avgClimateData.setMaxtemp(climateDatum.getTemperature());
+            avgClimateData.setAvghum(climateDatum.getHumidity() + avgClimateData.getAvghum());
+            avgClimateData.setAvgpress(climateDatum.getPressure() + avgClimateData.getAvgpress());
+            if (avgClimateData.getMinpress() > climateDatum.getPressure() || avgClimateData.getMinpress() == Float.MIN_VALUE)
+                avgClimateData.setMinpress(climateDatum.getPressure());
+            if (avgClimateData.getMaxpress() < climateDatum.getPressure() || avgClimateData.getMaxpress() == Float.MIN_VALUE)
+                avgClimateData.setMaxpress(climateDatum.getPressure());
+            avgClimateData.setAvgco2(climateDatum.getCo2() + avgClimateData.getAvgco2());
+            avgClimateData.setAvgtvoc(climateDatum.getTvoc() + avgClimateData.getAvgtvoc());
+            avgClimateData.setAvgpm2_5(climateDatum.getPm2_5() + avgClimateData.getAvgpm2_5());
+            avgClimateData.setAvgpm1_0(climateDatum.getPm1_0() + avgClimateData.getAvgpm1_0());
+            avgClimateData.setAvgpm10(climateDatum.getPm10() + avgClimateData.getAvgpm10());
+            avgClimateData.setAvgwind(climateDatum.getWind() + avgClimateData.getAvgwind());
+            if (avgClimateData.getMaxwind() < climateDatum.getWind() || avgClimateData.getMaxwind() == Float.MIN_VALUE)
+                avgClimateData.setMaxwind(climateDatum.getWind());
+            avgClimateData.setAvguv(climateDatum.getUv() + avgClimateData.getAvguv());
+        }
+        avgClimateData.setAvgtemp(avgClimateData.getAvgtemp() / averageList.size());
+        avgClimateData.setAvghum(avgClimateData.getAvghum() / averageList.size());
+        avgClimateData.setAvgpress(avgClimateData.getAvgpress() / averageList.size());
+        avgClimateData.setAvgco2(avgClimateData.getAvgco2() / averageList.size());
+        avgClimateData.setAvgtvoc(avgClimateData.getAvgtvoc() / averageList.size());
+        avgClimateData.setAvgpm2_5(avgClimateData.getAvgpm2_5() / averageList.size());
+        avgClimateData.setAvgpm1_0(avgClimateData.getAvgpm1_0() / averageList.size());
+        avgClimateData.setAvgpm10(avgClimateData.getAvgpm10() / averageList.size());
+        avgClimateData.setAvgwind(avgClimateData.getAvgwind() / averageList.size());
+        avgClimateData.setAvguv(avgClimateData.getAvguv() / averageList.size());*/
         }
         return avgClimateData;
     }
@@ -93,7 +126,7 @@ public class ClimateStore {
         try {
             list = CsvReadWrite.getDailyClimateSurvey(thingId);
         } catch (IOException e) {
-            Log.info(e.getMessage());
+            Log.info(e.toString());
         }
         List<InstantClimateData> averageList = list.stream()
                 .filter(x -> CalendarCheck.isTimestampInCurrentDay(DateConversion.stringToTimestamp(x.getTimestamp())))
@@ -151,7 +184,7 @@ public class ClimateStore {
             }
             return avgClimateData;
         } catch (IOException e) {
-            Log.info(e.getMessage());
+            Log.info(e.toString());
         }
         return null;
     }
@@ -169,7 +202,7 @@ public class ClimateStore {
                     .map(x -> new Tuple<>(x.getTimestamp(), x.isRain()))
                     .collect(Collectors.toList());
         } catch (IOException e) {
-            Log.info(e.getMessage());
+            Log.info(e.toString());
         }
         return null;
     }
@@ -184,31 +217,55 @@ public class ClimateStore {
     public List<Tuple<String, Float>> historyPropertySurveysDT(final String thingId, final String property) {
         try {
             List<InstantClimateData> list = CsvReadWrite.getDailyClimateSurvey(thingId);
-            return switch (property) {
-                case "temperature" -> list.stream().map(x -> new Tuple<>(x.getTimestamp(), x.getTemperature()))
-                        .collect(Collectors.toList());
-                case "humidity" -> list.stream().map(x -> new Tuple<>(x.getTimestamp(), x.getHumidity()))
-                        .collect(Collectors.toList());
-                case "pressure" -> list.stream().map(x -> new Tuple<>(x.getTimestamp(), x.getPressure()))
-                        .collect(Collectors.toList());
-                case "co2" -> list.stream().map(x -> new Tuple<>(x.getTimestamp(), x.getCo2()))
-                        .collect(Collectors.toList());
-                case "tvoc" -> list.stream().map(x -> new Tuple<>(x.getTimestamp(), x.getTvoc()))
-                        .collect(Collectors.toList());
-                case "pm2_5" -> list.stream().map(x -> new Tuple<>(x.getTimestamp(), x.getPm2_5()))
-                        .collect(Collectors.toList());
-                case "pm1_0" -> list.stream().map(x -> new Tuple<>(x.getTimestamp(), x.getPm1_0()))
-                        .collect(Collectors.toList());
-                case "pm10" -> list.stream().map(x -> new Tuple<>(x.getTimestamp(), x.getPm10()))
-                        .collect(Collectors.toList());
-                case "wind" -> list.stream().map(x -> new Tuple<>(x.getTimestamp(), x.getWind()))
-                        .collect(Collectors.toList());
-                case "uv" -> list.stream().map(x -> new Tuple<>(x.getTimestamp(), x.getUv()))
-                        .collect(Collectors.toList());
-                default -> null;
-            };
+            List<Tuple<String, Float>> finalList = null;
+            switch (property) {
+                case "temperature":
+                    finalList = list.stream().map(x -> new Tuple<>(x.getTimestamp(), x.getTemperature()))
+                            .collect(Collectors.toList());
+                    break;
+                case "humidity":
+                    finalList = list.stream().map(x -> new Tuple<>(x.getTimestamp(), x.getHumidity()))
+                            .collect(Collectors.toList());
+                    break;
+                case "pressure":
+                    finalList = list.stream().map(x -> new Tuple<>(x.getTimestamp(), x.getPressure()))
+                            .collect(Collectors.toList());
+                    break;
+                case "co2":
+                    finalList = list.stream().map(x -> new Tuple<>(x.getTimestamp(), x.getCo2()))
+                            .collect(Collectors.toList());
+                    break;
+                case "tvoc":
+                    finalList = list.stream().map(x -> new Tuple<>(x.getTimestamp(), x.getTvoc()))
+                            .collect(Collectors.toList());
+                    break;
+                case "pm2_5":
+                    finalList = list.stream().map(x -> new Tuple<>(x.getTimestamp(), x.getPm2_5()))
+                            .collect(Collectors.toList());
+                    break;
+                case "pm1_0":
+                    finalList = list.stream().map(x -> new Tuple<>(x.getTimestamp(), x.getPm1_0()))
+                            .collect(Collectors.toList());
+                    break;
+                case "pm10":
+                    finalList = list.stream().map(x -> new Tuple<>(x.getTimestamp(), x.getPm10()))
+                            .collect(Collectors.toList());
+                    break;
+                case "wind":
+                    finalList = list.stream().map(x -> new Tuple<>(x.getTimestamp(), x.getWind()))
+                            .collect(Collectors.toList());
+                    break;
+                //case "rain" : finalList = list.stream().map(x -> new Tuple<>(x.getTimestamp(), x.isRain()))
+                //        .collect(Collectors.toList());
+                // break;
+                case "uv":
+                    finalList = list.stream().map(x -> new Tuple<>(x.getTimestamp(), x.getUv()))
+                            .collect(Collectors.toList());
+                    break;
+            }
+            return finalList;
         } catch (IOException e) {
-            Log.info(e.getMessage());
+            Log.info(e.toString());
         }
         return null;
     }
@@ -225,14 +282,14 @@ public class ClimateStore {
             try {
                 list = CsvReadWrite.getDailyClimateSurvey(thingId);
             } catch (IOException e) {
-                Log.info(e.getMessage());
+                Log.info(e.toString());
             }
         }
         try {
             list.add(data);
             CsvReadWrite.setDailyClimateSurvey(list, thingId);
         } catch (IOException e) {
-            Log.info(e.getMessage());
+            Log.info(e.toString());
         }
     }
 
@@ -251,7 +308,7 @@ public class ClimateStore {
                             .collect(Collectors.toList()),
                     thingId);
         } catch (IOException e) {
-            Log.info(e.getMessage());
+            Log.info(e.toString());
         }
     }
 
@@ -271,7 +328,7 @@ public class ClimateStore {
             updateList.add(lastDay);
             CsvReadWrite.setHistoryClimateSurvey(updateList);
         } catch (IOException e) {
-            Log.info(e.getMessage());
+            Log.info(e.toString());
         }
     }
 
@@ -286,7 +343,7 @@ public class ClimateStore {
                     .filter(x -> CalendarCheck.isDateInCurrentMonth(DateConversion.stringToTimestamp(x.getTimestamp())))
                     .collect(Collectors.toList()));
         } catch (IOException e) {
-            Log.info(e.getMessage());
+            Log.info(e.toString());
         }
     }
 
