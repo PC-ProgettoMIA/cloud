@@ -268,8 +268,8 @@ public class JsonToObjectUtility {
                 .getJsonObject("location")
                 .getJsonObject("position");
         if (position != null && position.containsKey("latitude") && position.containsKey("longitude")) {
-            coordinate.setLatitude(position.getFloat("latitude"));
-            coordinate.setLatitude(position.getFloat("longitude"));
+            coordinate.setLatitude(position.getDouble("latitude"));
+            coordinate.setLongitude(position.getDouble("longitude"));
         }
         return coordinate;
     }
