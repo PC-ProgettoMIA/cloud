@@ -1,7 +1,8 @@
 package dataelaboration.utility.json;
 
+import dataelaboration.model.Coordinate;
 import dataelaboration.model.DailyClimateData;
-import dataelaboration.utility.Tuple;
+import dataelaboration.model.Tuple;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 
@@ -54,7 +55,7 @@ public class ObjectToJsonUtility {
         JsonArray array = new JsonArray();
         for (var elem : data) {
             JsonObject obj = new JsonObject();
-            obj.put("timestamp", elem.getTimestamp());
+            obj.put("timestamp", elem.getString());
             obj.put("data", elem.getProperties());
             array.add(obj);
         }
@@ -75,11 +76,35 @@ public class ObjectToJsonUtility {
         if (!data.isEmpty()) {
             for (var elem : data) {
                 JsonObject obj = new JsonObject();
-                obj.put("timestamp", elem.getTimestamp());
+                obj.put("timestamp", elem.getString());
                 obj.put("data", elem.getProperties());
                 array.add(obj);
             }
             json.put("rain", array);
+        }
+        return json;
+    }
+
+    /**
+     * Convert id and coordinate data to json.
+     *
+     * @param data coordinate data to convert.
+     * @return the json object.
+     */
+    public static JsonObject IdCoordinateDataToJson(final List<Tuple<String, Coordinate>> data) {
+        JsonObject json = new JsonObject();
+        JsonArray array = new JsonArray();
+        if (!data.isEmpty()) {
+            for (var elem : data) {
+                JsonObject obj = new JsonObject();
+                obj.put("thingId", elem.getString());
+                JsonObject position = new JsonObject()
+                        .put("latitude", elem.getProperties().getLatitude())
+                        .put("longitude", elem.getProperties().getLongitude());
+                obj.put("position", position);
+                array.add(obj);
+            }
+            json.put("data", array);
         }
         return json;
     }

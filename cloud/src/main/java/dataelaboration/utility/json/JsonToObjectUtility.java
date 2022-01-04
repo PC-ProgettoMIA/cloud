@@ -1,5 +1,6 @@
 package dataelaboration.utility.json;
 
+import dataelaboration.model.Coordinate;
 import dataelaboration.utility.DateConversion;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -36,7 +37,6 @@ public class JsonToObjectUtility {
      */
     public static String getJsonTimestamp(JsonObject result) {
         List<Timestamp> list = new LinkedList<>();
-        // TODO: 23/12/21 Controllare pm2_5, pm1_0, pm10, cosi non vanno bene mi sa 
         List<String> keys = Arrays.asList("temperature", "humidity",
                 "pressure", "co2", "tvoc", "quality", "wind", "rain", "uv");
         JsonObject properties = checkProperties(result);
@@ -175,7 +175,6 @@ public class JsonToObjectUtility {
         if (properties != null && properties.containsKey("quality")) {
             JsonObject quality = properties.getJsonObject("quality");
             if (quality.containsKey("data")) {
-                // TODO: 21/12/21 To test
                 JsonArray data = quality.getJsonArray("data");
                 value = data.getJsonObject(0).getFloat("pm1_0_std");
             }
@@ -254,5 +253,24 @@ public class JsonToObjectUtility {
             }
         }
         return value;
+    }
+
+    /**
+     * Obtain coordinates from json object.
+     *
+     * @param result, integral json object.
+     * @return json coordinates.
+     */
+    public static Coordinate getJsonCoordinates(JsonObject result) {
+        Coordinate coordinate = new Coordinate(Float.MIN_VALUE, Float.MIN_VALUE);
+        JsonObject position = result
+                .getJsonObject("attributes")
+                .getJsonObject("location")
+                .getJsonObject("position");
+        if (position != null && position.containsKey("latitude") && position.containsKey("longitude")) {
+            coordinate.setLatitude(position.getFloat("latitude"));
+            coordinate.setLatitude(position.getFloat("longitude"));
+        }
+        return coordinate;
     }
 }

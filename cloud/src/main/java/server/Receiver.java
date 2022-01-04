@@ -3,6 +3,7 @@ package server;
 import dataelaboration.ClimateStore;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.ext.web.client.WebClient;
+import server.controllers.DataController;
 import server.controllers.HistoryController;
 import server.controllers.PeriodicDTController;
 import server.controllers.SingleDTController;
@@ -30,6 +31,8 @@ public class Receiver extends AbstractVerticle {
         SingleDTController singleDTController = new SingleDTController(client, climateStore);
         PeriodicDTController periodicDTController = new PeriodicDTController(climateStore);
         HistoryController historyController = new HistoryController(climateStore);
-        this.routes = new Routes(vertx, singleDTController, periodicDTController, historyController);
+        DataController dataController = new DataController(client, climateStore);
+
+        this.routes = new Routes(vertx, singleDTController, periodicDTController, historyController, dataController);
     }
 }

@@ -1,27 +1,28 @@
-package dataelaboration.utility;
+package dataelaboration.model;
 
 /**
  * Tuple.
  *
  * @param <String>, string.
- * @param <B>,      numeric or boolean value.
+ * @param <B>,      numeric or boolean or other value.
  */
 public class Tuple<String, B> {
 
-    private String timestamp;
+    private String string;
     private B property;
 
+
     public Tuple(String timestamp, B property) {
-        this.timestamp = timestamp;
+        this.string = timestamp;
         this.property = property;
     }
 
-    public String getTimestamp() {
-        return timestamp;
+    public String getString() {
+        return string;
     }
 
-    public void setTimestamp(String timestamp) {
-        this.timestamp = timestamp;
+    public void setString(String string) {
+        this.string = string;
     }
 
     public B getProperties() {

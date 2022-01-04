@@ -16,7 +16,8 @@ public class Main {
             Vertx vertx = Vertx.vertx();
             vertx.deployVerticle(service);
 
-            long timerID = vertx.setPeriodic(86400000, new Handler<Long>() {
+            //long timerID = vertx.setPeriodic(86400000, new Handler<Long>() {
+            long timerID = vertx.setPeriodic(3600000, new Handler<Long>() {
 
                 @Override
                 public void handle(Long aLong) {

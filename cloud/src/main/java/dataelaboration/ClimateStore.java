@@ -2,6 +2,7 @@ package dataelaboration;
 
 import dataelaboration.model.DailyClimateData;
 import dataelaboration.model.InstantClimateData;
+import dataelaboration.model.Tuple;
 import dataelaboration.utility.*;
 
 import java.io.IOException;

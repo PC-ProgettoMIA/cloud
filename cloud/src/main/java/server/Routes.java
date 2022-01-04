@@ -3,6 +3,7 @@ package server;
 import io.vertx.core.Vertx;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.handler.BodyHandler;
+import server.controllers.DataController;
 import server.controllers.HistoryController;
 import server.controllers.PeriodicDTController;
 import server.controllers.SingleDTController;
@@ -11,7 +12,8 @@ public class Routes {
     private final Router router;
 
     Routes(Vertx vertx,
-           SingleDTController singleDTController, PeriodicDTController periodicDTController, HistoryController historyController) {
+           SingleDTController singleDTController, PeriodicDTController periodicDTController, HistoryController historyController,
+           DataController dataController) {
         this.router = Router.router(vertx);
         router.route().handler(BodyHandler.create());
 
@@ -33,6 +35,8 @@ public class Routes {
         router.get("/api/history/wind/:thingId").handler(historyController::historyWindSurveysDT);
         router.get("/api/history/rain/:thingId").handler(historyController::historyRainSurveysDT);
         router.get("/api/history/uv/:thingId").handler(historyController::historyUvSurveysDT);
+
+        router.get("/api/all/things").handler(dataController::getIdCoordinateOfDigitalTwin);
 
         router.errorHandler(404, routingContext -> {
             routingContext.response().setStatusCode(404).end("Route not found");
