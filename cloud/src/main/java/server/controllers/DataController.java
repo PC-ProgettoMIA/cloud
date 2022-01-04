@@ -48,7 +48,7 @@ public class DataController {
                     .onSuccess(res -> {
                         System.out.println("thingId " + thingId);
                         Coordinate coordinate = JsonToObjectUtility.getJsonCoordinates(res.bodyAsJsonObject());
-                        System.out.println("coordinate " + coordinate);
+                        System.out.println("coordinate " + coordinate.getLongitude() + " e " + coordinate.getLatitude());
                         list.add(new Tuple<>(thingId, coordinate));
                     });
 
