@@ -37,7 +37,7 @@ Il **_cloud_** è messo in esecuzione su un VM con i seguenti requisiti:
 - OS:  ubuntu server 20.04
 
 ## Deployment
-Il server è sempre online ed il cloud sempre attivo, ma nel caso di arresto del server riavvio di tale, seguire i seguenti passaggi:
+Il server è sempre online ed il cloud sempre attivo, ma nel caso di arresto del server per effettuare il riavvio, seguire i seguenti passaggi.
 ```bash
 #Abilitare i permessi per l'esecuzione degli script.
 chmod 755 docker-ditto.sh
