@@ -1,8 +1,8 @@
 package dataelaboration.utility.json;
 
 import dataelaboration.model.Coordinate;
-import dataelaboration.model.csvmodel.DailyClimateData;
 import dataelaboration.model.Tuple;
+import dataelaboration.model.csvmodel.DailyClimateData;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 
@@ -104,7 +104,7 @@ public class ObjectToJsonUtility {
                 obj.put("position", position);
                 array.add(obj);
             }
-            json.put("data", array);
+            json.put("items", array);
         }
         return json;
     }

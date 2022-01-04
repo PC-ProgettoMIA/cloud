@@ -51,7 +51,6 @@ public class DataController {
                     for (int i = 0; i < items.size(); i++) {
                         String thingId = items.getJsonObject(i).getString("thingId").split(":")[1];
                         Coordinate coordinate = JsonToObjectUtility.getJsonCoordinates(items.getJsonObject(i));
-                        System.out.println("coordinate " + coordinate.getLongitude() + " e " + coordinate.getLatitude());
                         list.add(new Tuple<>(thingId, new Coordinate(coordinate.getLatitude(), coordinate.getLongitude())));
                     }
                     HttpServerResponse response = ctx.response();
@@ -59,28 +58,5 @@ public class DataController {
                     response.end(ObjectToJsonUtility.IdCoordinateDataToJson(list).encodePrettily());
                 });
     }
-
-
-    /*public void getIdCoordinateOfDigitalTwin(RoutingContext ctx) {
-        List<Tuple<String, Coordinate>> list = new ArrayList<>();
-        for (String element : FileManager.getHouseMiaFiles()) {
-            String thingId = element.replace(".csv", "");
-            HttpRequest<Buffer> request = client.get(8080, "localhost", "/api/2/things/my.houses:" + thingId);
-            MultiMap headers = request.headers();
-            headers.set("content-type", "application/json");
-            request.authentication(new UsernamePasswordCredentials("ditto", "ditto"));
-            request.send()
-                    .onSuccess(res -> {
-                        System.out.println("thingId " + thingId);
-                        Coordinate coordinate = JsonToObjectUtility.getJsonCoordinates(res.bodyAsJsonObject());
-                        System.out.println("coordinate " + coordinate.getLongitude() + " e " + coordinate.getLatitude());
-                        list.add(new Tuple<>(thingId, new Coordinate(coordinate.getLatitude(), coordinate.getLongitude())));
-                    });
-            list.add(new Tuple<>(thingId, new Coordinate(12.2, 13.3)));
-        }
-        HttpServerResponse response = ctx.response();
-        response.putHeader("content-type", "application/json");
-        response.end(ObjectToJsonUtility.IdCoordinateDataToJson(list).encodePrettily());
-    }*/
 }
 
