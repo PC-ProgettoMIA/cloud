@@ -27,7 +27,7 @@ questo indirizza il progetto verso una soluzione open data, in cui i dati raccol
 ![GitHub last commit](https://img.shields.io/github/last-commit/PC-ProgettoMIA/cloud/develop)
 
 
-##Requirements
+## Requirements
 
 Il **_cloud_** è messo in esecuzione su un VM con i seguenti requisiti:
 
@@ -36,7 +36,7 @@ Il **_cloud_** è messo in esecuzione su un VM con i seguenti requisiti:
 - 100 GB disco
 - OS:  ubuntu server 20.04
 
-##Deployment
+## Deployment
 Il server è sempre online ed il cloud sempre attivo, ma nel caso di arresto del server riavvio di tale, seguire i seguenti passaggi:
 ```bash
 #Abilitare i permessi per l'esecuzione degli script.
