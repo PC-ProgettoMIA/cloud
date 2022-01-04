@@ -46,8 +46,13 @@ public class DataController {
             request.authentication(new UsernamePasswordCredentials("ditto", "ditto"));
             request.send()
                     .onSuccess(res -> {
-                        list.add(new Tuple<>(thingId, JsonToObjectUtility.getJsonCoordinates(res.bodyAsJsonObject())));
+                        System.out.println("thingId " + thingId);
+                        Coordinate coordinate = JsonToObjectUtility.getJsonCoordinates(res.bodyAsJsonObject());
+                        System.out.println("coordinate " + coordinate);
+                        list.add(new Tuple<>(thingId, coordinate));
                     });
+
+            list.add(new Tuple<>(thingId, new Coordinate(12.2, 13.3)));
         }
         HttpServerResponse response = ctx.response();
         response.putHeader("content-type", "application/json");

@@ -5,15 +5,15 @@ package dataelaboration.model;
  */
 public class Coordinate {
 
-    private float latitude;
-    private float longitude;
+    private double latitude;
+    private double longitude;
 
-    public Coordinate(float latitude, float longitude) {
+    public Coordinate(double latitude, double longitude) {
         this.latitude = latitude;
         this.longitude = longitude;
     }
 
-    public float getLatitude() {
+    public double getLatitude() {
         return latitude;
     }
 
@@ -21,7 +21,7 @@ public class Coordinate {
         this.latitude = latitude;
     }
 
-    public float getLongitude() {
+    public double getLongitude() {
         return longitude;
     }
 
