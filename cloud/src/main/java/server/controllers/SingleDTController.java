@@ -32,7 +32,7 @@ public class SingleDTController {
      */
     public void getDigitalTwin(RoutingContext ctx) {
         String thingId = ctx.request().getParam("thingId");
-        HttpRequest<Buffer> request = client.get(8080, "localhost", "/api/2/things/my.houses:" + thingId);
+        HttpRequest<Buffer> request = client.get(8080, "localhost", "/api/2/things/" + thingId);
         MultiMap headers = request.headers();
         headers.set("content-type", "application/json");
         request.authentication(new UsernamePasswordCredentials("ditto", "ditto"));
@@ -65,8 +65,8 @@ public class SingleDTController {
                     JsonToObjectUtility.getJsonRain(result),
                     JsonToObjectUtility.getJsonUv(result)
             );
-            this.climateStore.putInstantClimateSurvey(thingId, data);
-            HttpRequest<Buffer> request = client.put(8080, "localhost", "/api/2/things/my.houses:" + thingId);
+            this.climateStore.putInstantClimateSurvey(thingId.replace("my.houses:", ""), data);
+            HttpRequest<Buffer> request = client.put(8080, "localhost", "/api/2/things/" + thingId);
             MultiMap headers = request.headers();
             headers.set("content-type", "application/json");
             request.authentication(new UsernamePasswordCredentials("ditto", "ditto"));

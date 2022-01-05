@@ -24,7 +24,7 @@ public class PeriodicDTController {
      * @param ctx, context routing.
      */
     public void dailyWeatherSurveyDT(RoutingContext ctx) {
-        String thingId = ctx.request().getParam("thingId");
+        String thingId = ctx.request().getParam("thingId").replace("my.houses:", "");
         HttpServerResponse response = ctx.response();
         response.putHeader("content-type", "application/json");
         DailyClimateData day = climateStore.lastDayAverageClimateData(thingId);
@@ -40,7 +40,7 @@ public class PeriodicDTController {
      * @param ctx, context routing.
      */
     public void weeklyWeatherSurveyDT(RoutingContext ctx) {
-        String thingId = ctx.request().getParam("thingId");
+        String thingId = ctx.request().getParam("thingId").replace("my.houses:", "");
         HttpServerResponse response = ctx.response();
         response.putHeader("content-type", "application/json");
         response.end(ObjectToJsonUtility.dailyClimateDataToJson(
@@ -55,7 +55,7 @@ public class PeriodicDTController {
      * @param ctx, context routing.
      */
     public void monthyWeatherSurveyDT(RoutingContext ctx) {
-        String thingId = ctx.request().getParam("thingId");
+        String thingId = ctx.request().getParam("thingId").replace("my.houses:", "");
         HttpServerResponse response = ctx.response();
         response.putHeader("content-type", "application/json");
         response.end(ObjectToJsonUtility.dailyClimateDataToJson(

@@ -1,6 +1,6 @@
 package dataelaboration.utility.json;
 
-import dataelaboration.model.Coordinate;
+import dataelaboration.model.InfoThing;
 import dataelaboration.model.Tuple;
 import dataelaboration.model.csvmodel.DailyClimateData;
 import io.vertx.core.json.JsonArray;
@@ -91,17 +91,17 @@ public class ObjectToJsonUtility {
      * @param data coordinate data to convert.
      * @return the json object.
      */
-    public static JsonObject IdCoordinateDataToJson(final List<Tuple<String, Tuple<String, Coordinate>>> data) {
+    public static JsonObject IdCoordinateDataToJson(final List<InfoThing> data) {
         JsonObject json = new JsonObject();
         JsonArray array = new JsonArray();
         if (!data.isEmpty()) {
             for (var elem : data) {
                 JsonObject obj = new JsonObject();
-                obj.put("thingId", elem.getString());
-                obj.put("school", elem.getProperties().getString());
+                obj.put("thingId", elem.getThingId());
+                obj.put("school", elem.getSchoolName());
                 JsonObject position = new JsonObject()
-                        .put("latitude", elem.getProperties().getProperties().getLatitude())
-                        .put("longitude", elem.getProperties().getProperties().getLongitude());
+                        .put("latitude", elem.getCoordinate().getLatitude())
+                        .put("longitude", elem.getCoordinate().getLongitude());
                 obj.put("position", position);
                 array.add(obj);
             }
