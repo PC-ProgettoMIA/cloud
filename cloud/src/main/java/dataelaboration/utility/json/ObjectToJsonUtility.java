@@ -91,16 +91,17 @@ public class ObjectToJsonUtility {
      * @param data coordinate data to convert.
      * @return the json object.
      */
-    public static JsonObject IdCoordinateDataToJson(final List<Tuple<String, Coordinate>> data) {
+    public static JsonObject IdCoordinateDataToJson(final List<Tuple<String, Tuple<String, Coordinate>>> data) {
         JsonObject json = new JsonObject();
         JsonArray array = new JsonArray();
         if (!data.isEmpty()) {
             for (var elem : data) {
                 JsonObject obj = new JsonObject();
                 obj.put("thingId", elem.getString());
+                obj.put("school", elem.getProperties().getString());
                 JsonObject position = new JsonObject()
-                        .put("latitude", elem.getProperties().getLatitude())
-                        .put("longitude", elem.getProperties().getLongitude());
+                        .put("latitude", elem.getProperties().getProperties().getLatitude())
+                        .put("longitude", elem.getProperties().getProperties().getLongitude());
                 obj.put("position", position);
                 array.add(obj);
             }

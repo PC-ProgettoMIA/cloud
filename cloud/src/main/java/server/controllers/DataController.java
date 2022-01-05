@@ -38,7 +38,7 @@ public class DataController {
      * @param ctx, context routing.
      */
     public void getIdCoordinateOfDigitalTwin(RoutingContext ctx) {
-        List<Tuple<String, Coordinate>> list = new ArrayList<>();
+        List<Tuple<String, Tuple<String, Coordinate>>> list = new ArrayList<>();
 
         HttpRequest<Buffer> request = client.get(8080, "localhost", "/api/2/search/things");
         MultiMap headers = request.headers();
@@ -50,8 +50,9 @@ public class DataController {
                     JsonArray items = result.getJsonArray("items");
                     for (int i = 0; i < items.size(); i++) {
                         String thingId = items.getJsonObject(i).getString("thingId").split(":")[1];
+                        String school = items.getJsonObject(i).getJsonObject("attributes").getString("school");
                         Coordinate coordinate = JsonToObjectUtility.getJsonCoordinates(items.getJsonObject(i));
-                        list.add(new Tuple<>(thingId, new Coordinate(coordinate.getLatitude(), coordinate.getLongitude())));
+                        list.add(new Tuple<>(thingId, new Tuple<>(school, new Coordinate(coordinate.getLatitude(), coordinate.getLongitude()))));
                     }
                     HttpServerResponse response = ctx.response();
                     response.putHeader("content-type", "application/json");
