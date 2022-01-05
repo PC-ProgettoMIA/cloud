@@ -49,7 +49,6 @@ public class SingleDTController {
      */
     public void putDigitalTwin(RoutingContext ctx) {
         String thingId = ctx.request().getParam("thingId");
-        System.out.println(thingId);
         JsonObject result = ctx.getBodyAsJson();
         if (result != null) {
             InstantClimateData data = new InstantClimateData(
