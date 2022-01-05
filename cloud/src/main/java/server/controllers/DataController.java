@@ -49,7 +49,7 @@ public class DataController {
                     JsonObject result = res.bodyAsJsonObject();
                     JsonArray items = result.getJsonArray("items");
                     for (int i = 0; i < items.size(); i++) {
-                        String thingId = items.getJsonObject(i).getString("thingId").split(":")[1];
+                        String thingId = items.getJsonObject(i).getString("thingId");
                         String school = items.getJsonObject(i).getJsonObject("attributes").getString("school");
                         Coordinate coordinate = JsonToObjectUtility.getJsonCoordinates(items.getJsonObject(i));
                         list.add(new InfoThing(thingId, school, coordinate));
