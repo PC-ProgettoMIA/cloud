@@ -1,5 +1,8 @@
 package dataelaboration.model;
 
+/**
+ * Information of things.
+ */
 public class InfoThing {
     private String thingId;
     private String schoolName;

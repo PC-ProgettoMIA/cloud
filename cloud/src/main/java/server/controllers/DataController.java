@@ -58,27 +58,6 @@ public class DataController {
                     response.putHeader("content-type", "application/json");
                     response.end(ObjectToJsonUtility.IdCoordinateDataToJson(list).encodePrettily());
                 });
-
-//        List<Tuple<String, Tuple<String, Coordinate>>> list = new ArrayList<>();
-//
-//        HttpRequest<Buffer> request = client.get(8080, "localhost", "/api/2/search/things");
-//        MultiMap headers = request.headers();
-//        headers.set("content-type", "application/json");
-//        request.authentication(new UsernamePasswordCredentials("ditto", "ditto"));
-//        request.send()
-//                .onSuccess(res -> {
-//                    JsonObject result = res.bodyAsJsonObject();
-//                    JsonArray items = result.getJsonArray("items");
-//                    for (int i = 0; i < items.size(); i++) {
-//                        String thingId = items.getJsonObject(i).getString("thingId").split(":")[1];
-//                        String school = items.getJsonObject(i).getJsonObject("attributes").getString("school");
-//                        Coordinate coordinate = JsonToObjectUtility.getJsonCoordinates(items.getJsonObject(i));
-//                        list.add(new Tuple<>(thingId, new Tuple<>(school, new Coordinate(coordinate.getLatitude(), coordinate.getLongitude()))));
-//                    }
-//                    HttpServerResponse response = ctx.response();
-//                    response.putHeader("content-type", "application/json");
-//                    response.end(ObjectToJsonUtility.IdCoordinateDataToJson(list).encodePrettily());
-//                });
     }
 }
 
