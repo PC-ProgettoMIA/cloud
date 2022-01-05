@@ -2,6 +2,7 @@ package server;
 
 import io.vertx.core.Vertx;
 import io.vertx.ext.web.Router;
+import io.vertx.ext.web.handler.BodyHandler;
 import io.vertx.ext.web.handler.CorsHandler;
 import server.controllers.DataController;
 import server.controllers.HistoryController;
@@ -15,7 +16,7 @@ public class Routes {
            SingleDTController singleDTController, PeriodicDTController periodicDTController, HistoryController historyController,
            DataController dataController) {
         this.router = Router.router(vertx);
-        //router.route().handler(BodyHandler.create());
+        router.route().handler(BodyHandler.create());
 
         router.route().handler(CorsHandler.create()
                 .allowedMethod(io.vertx.core.http.HttpMethod.GET)
