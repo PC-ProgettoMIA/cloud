@@ -4,17 +4,14 @@ import io.vertx.core.Vertx;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.handler.BodyHandler;
 import io.vertx.ext.web.handler.CorsHandler;
-import server.controllers.DataController;
-import server.controllers.HistoryController;
-import server.controllers.PeriodicDTController;
-import server.controllers.SingleDTController;
+import server.controllers.*;
 
 public class Routes {
     private final Router router;
 
     Routes(Vertx vertx,
            SingleDTController singleDTController, PeriodicDTController periodicDTController, HistoryController historyController,
-           DataController dataController) {
+           DataController dataController, SpatialController spatialController) {
         this.router = Router.router(vertx);
         router.route().handler(BodyHandler.create());
 
@@ -48,6 +45,8 @@ public class Routes {
         router.get("/api/history/wind/:thingId").handler(historyController::historyWindSurveysDT);
         router.get("/api/history/rain/:thingId").handler(historyController::historyRainSurveysDT);
         router.get("/api/history/uv/:thingId").handler(historyController::historyUvSurveysDT);
+
+        router.get("/api/spatial/").handler(spatialController::getSpatialStatusDigitalTwin);
 
         router.get("/api/all/things").handler(dataController::getIdCoordinateOfDigitalTwin);
 
