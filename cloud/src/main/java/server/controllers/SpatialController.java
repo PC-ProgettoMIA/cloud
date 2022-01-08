@@ -58,8 +58,8 @@ public class SpatialController {
                             list.add(new InfoThing(thingId, school, coordinate));
                         }
                         ctx.response().end(
-                                ObjectToJsonUtility.dailyClimateDataToJson(
-                                        "Geographical Area", climateStore.lastDayAverageAreaClimate(
+                                ObjectToJsonUtility.geographicalAverageDataToJson(
+                                        climateStore.lastDayAverageAreaClimate(
                                                 list.stream()
                                                         .filter(x -> x.getCoordinate().getLatitude() > body.getDouble("latitude1")
                                                                 && x.getCoordinate().getLongitude() > body.getDouble("longitude1"))
