@@ -46,7 +46,7 @@ public class Routes {
         router.get("/api/history/rain/:thingId").handler(historyController::historyRainSurveysDT);
         router.get("/api/history/uv/:thingId").handler(historyController::historyUvSurveysDT);
 
-        router.get("/api/spatial/").handler(spatialController::getSpatialStatusDigitalTwin);
+        router.get("/api/spatial").handler(spatialController::getSpatialStatusDigitalTwin);
 
         router.get("/api/all/things").handler(dataController::getIdCoordinateOfDigitalTwin);
 

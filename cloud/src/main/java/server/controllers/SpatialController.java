@@ -65,7 +65,7 @@ public class SpatialController {
                                                                 && x.getCoordinate().getLongitude() > body.getDouble("longitude1"))
                                                         .filter(x -> x.getCoordinate().getLatitude() < body.getDouble("latitude2")
                                                                 && x.getCoordinate().getLongitude() < body.getDouble("longitude2"))
-                                                        .map(InfoThing::getThingId)
+                                                        .map(x -> x.getThingId().replace("my.houses:", ""))
                                                         .map(e -> climateStore.lastDayAverageClimateData(e))
                                                         .collect(Collectors.toList())
                                         )
