@@ -51,7 +51,7 @@ public class ObjectToJsonUtility {
      */
     public static JsonObject geographicalAverageDataToJson(final DailyClimateData data) {
         return new JsonObject("{\n" +
-                "    \"areaproperties\": {\n" +
+                "    \"area_properties\": {\n" +
                 "        \"avgtemp\": " + data.getAvgtemp() + ",\n" +
                 "        \"mintemp\": " + data.getMintemp() + ",\n" +
                 "        \"maxtemp\": " + data.getMaxtemp() + ",\n" +
