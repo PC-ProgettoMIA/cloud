@@ -38,9 +38,12 @@ public class SpatialController {
      * @param ctx, context routing.
      */
     public void getSpatialStatusDigitalTwin(RoutingContext ctx) {
-        JsonObject body = ctx.getBodyAsJson();
+        String latitude1 = ctx.request().getParam("latitude1");
+        String longitude1 = ctx.request().getParam("longitude1");
+        String latitude2 = ctx.request().getParam("latitude2");
+        String longitude2 = ctx.request().getParam("longitude2");
 
-        if (body.containsKey("latitude1") && body.containsKey("longitude1") && body.containsKey("latitude2") && body.containsKey("longitude2")) {
+        if (!latitude1.isEmpty() && !longitude1.isEmpty() && !latitude2.isEmpty() && !longitude2.isEmpty()) {
             List<InfoThing> list = new ArrayList<>();
 
             HttpRequest<Buffer> request = client.get(8080, "localhost", "/api/2/search/things");
@@ -61,10 +64,10 @@ public class SpatialController {
                                 ObjectToJsonUtility.geographicalAverageDataToJson(
                                         climateStore.lastDayAverageAreaClimate(
                                                 list.stream()
-                                                        .filter(x -> x.getCoordinate().getLatitude() > body.getDouble("latitude1")
-                                                                && x.getCoordinate().getLongitude() > body.getDouble("longitude1"))
-                                                        .filter(x -> x.getCoordinate().getLatitude() < body.getDouble("latitude2")
-                                                                && x.getCoordinate().getLongitude() < body.getDouble("longitude2"))
+                                                        .filter(x -> x.getCoordinate().getLatitude() > Double.parseDouble(latitude1)
+                                                                && x.getCoordinate().getLongitude() > Double.parseDouble(longitude1))
+                                                        .filter(x -> x.getCoordinate().getLatitude() < Double.parseDouble(latitude2)
+                                                                && x.getCoordinate().getLongitude() < Double.parseDouble(longitude2))
                                                         .map(x -> x.getThingId().replace("my.houses:", ""))
                                                         .map(e -> climateStore.lastDayAverageClimateData(e))
                                                         .collect(Collectors.toList())
