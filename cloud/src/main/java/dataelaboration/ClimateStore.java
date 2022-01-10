@@ -17,72 +17,7 @@ import java.util.stream.Collectors;
  */
 public class ClimateStore {
 
-
-    /*
-        public List<DailyClimateData> lastWeekWeatherSurveysDT(final String thingId) {
-            try {
-                List<DailyClimateData> climateData = CsvReadWrite.getHistoryClimateSurveys();
-                return climateData.stream()
-                        .filter(x -> Objects.equals(thingId, x.getThingID()))
-                        .filter(x -> CalendarCheck.isDateInCurrentWeek(DateConversion.stringToTimestamp(x.getTimestamp())))
-                        .collect(Collectors.toList());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-    */
-
-    /*public List<InstantClimateData> dailyWeatherSurveyDT(final String thingId) {
-    try {
-        return CsvReadWrite.getDailyClimateSurvey(thingId).stream()
-                .filter(x -> CalendarCheck.isTimestampInCurrentDay(DateConversion.stringToTimestamp(x.getTimestamp())))
-                .collect(Collectors.toList());
-    } catch (IOException e) {
-        e.printStackTrace();
-    }
-    return null;
-}*/
-
-
-    /**
-     * Average of last day climate.
-     *
-     * @param thingId, thing id of house.
-     * @return average of last day climate.
-     */
-    public DailyClimateData lastDayAverageClimateData(final String thingId) {
-
-        List<InstantClimateData> list = new ArrayList<>();
-        try {
-            list = CsvReadWrite.getDailyClimateSurvey(thingId);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        List<InstantClimateData> averageList = list.stream()
-                .filter(x -> CalendarCheck.isTimestampInCurrentDay(DateConversion.stringToTimestamp(x.getTimestamp())))
-                .collect(Collectors.toList());
-        DailyClimateData avgClimateData = new DailyClimateData();
-        if (!averageList.isEmpty()) {
-            avgClimateData.setAvgtemp(((float) averageList.stream().mapToDouble(InstantClimateData::getTemperature).average().getAsDouble()));
-            avgClimateData.setMintemp(((float) averageList.stream().mapToDouble(InstantClimateData::getTemperature).min().getAsDouble()));
-            avgClimateData.setMaxtemp(((float) averageList.stream().mapToDouble(InstantClimateData::getTemperature).max().getAsDouble()));
-            avgClimateData.setAvghum(((float) averageList.stream().mapToDouble(InstantClimateData::getHumidity).average().getAsDouble()));
-            avgClimateData.setAvgpress(((float) averageList.stream().mapToDouble(InstantClimateData::getPressure).average().getAsDouble()));
-            avgClimateData.setMinpress(((float) averageList.stream().mapToDouble(InstantClimateData::getPressure).min().getAsDouble()));
-            avgClimateData.setMaxpress(((float) averageList.stream().mapToDouble(InstantClimateData::getPressure).max().getAsDouble()));
-            avgClimateData.setAvgco2(((float) averageList.stream().mapToDouble(InstantClimateData::getCo2).average().getAsDouble()));
-            avgClimateData.setAvgtvoc(((float) averageList.stream().mapToDouble(InstantClimateData::getTvoc).average().getAsDouble()));
-            avgClimateData.setAvgpm2_5(((float) averageList.stream().mapToDouble(InstantClimateData::getPm2_5).average().getAsDouble()));
-            avgClimateData.setAvgpm1_0(((float) averageList.stream().mapToDouble(InstantClimateData::getPm1_0).average().getAsDouble()));
-            avgClimateData.setAvgpm10(((float) averageList.stream().mapToDouble(InstantClimateData::getPm10).average().getAsDouble()));
-            avgClimateData.setAvgwind(((float) averageList.stream().mapToDouble(InstantClimateData::getWind).average().getAsDouble()));
-            avgClimateData.setMaxwind(((float) averageList.stream().mapToDouble(InstantClimateData::getWind).max().getAsDouble()));
-            avgClimateData.setAvguv(((float) averageList.stream().mapToDouble(InstantClimateData::getUv).average().getAsDouble()));
-        }
-        return avgClimateData;
-    }
+    private static final long WEEK_IN_MILLIS = 14400000L;
 
     /**
      * Average of last day climate in geographical area.
@@ -90,7 +25,7 @@ public class ClimateStore {
      * @param climateDataList, list of climate data in geographical area.
      * @return average climate data.
      */
-    public DailyClimateData lastDayAverageAreaClimate(final List<DailyClimateData> climateDataList) {
+    public DailyClimateData calculateAggregateDailyData(final List<DailyClimateData> climateDataList) {
         DailyClimateData avgClimateData = new DailyClimateData();
         if (!climateDataList.isEmpty()) {
             avgClimateData.setAvgtemp(((float) climateDataList.stream().mapToDouble(DailyClimateData::getAvgtemp).average().getAsDouble()));
@@ -112,6 +47,49 @@ public class ClimateStore {
         return avgClimateData;
     }
 
+    private DailyClimateData calculateAggregateInstantData(List<InstantClimateData> data) {
+        DailyClimateData avgClimateData = new DailyClimateData();
+        if (!data.isEmpty()) {
+            avgClimateData.setAvgtemp(((float) data.stream().mapToDouble(InstantClimateData::getTemperature).average().getAsDouble()));
+            avgClimateData.setMintemp(((float) data.stream().mapToDouble(InstantClimateData::getTemperature).min().getAsDouble()));
+            avgClimateData.setMaxtemp(((float) data.stream().mapToDouble(InstantClimateData::getTemperature).max().getAsDouble()));
+            avgClimateData.setAvghum(((float) data.stream().mapToDouble(InstantClimateData::getHumidity).average().getAsDouble()));
+            avgClimateData.setAvgpress(((float) data.stream().mapToDouble(InstantClimateData::getPressure).average().getAsDouble()));
+            avgClimateData.setMinpress(((float) data.stream().mapToDouble(InstantClimateData::getPressure).min().getAsDouble()));
+            avgClimateData.setMaxpress(((float) data.stream().mapToDouble(InstantClimateData::getPressure).max().getAsDouble()));
+            avgClimateData.setAvgco2(((float) data.stream().mapToDouble(InstantClimateData::getCo2).average().getAsDouble()));
+            avgClimateData.setAvgtvoc(((float) data.stream().mapToDouble(InstantClimateData::getTvoc).average().getAsDouble()));
+            avgClimateData.setAvgpm2_5(((float) data.stream().mapToDouble(InstantClimateData::getPm2_5).average().getAsDouble()));
+            avgClimateData.setAvgpm1_0(((float) data.stream().mapToDouble(InstantClimateData::getPm1_0).average().getAsDouble()));
+            avgClimateData.setAvgpm10(((float) data.stream().mapToDouble(InstantClimateData::getPm10).average().getAsDouble()));
+            avgClimateData.setAvgwind(((float) data.stream().mapToDouble(InstantClimateData::getWind).average().getAsDouble()));
+            avgClimateData.setMaxwind(((float) data.stream().mapToDouble(InstantClimateData::getWind).max().getAsDouble()));
+            avgClimateData.setAvguv(((float) data.stream().mapToDouble(InstantClimateData::getUv).average().getAsDouble()));
+        }
+        return avgClimateData;
+    }
+
+    /**
+     * Average of last day climate.
+     *
+     * @param thingId, thing id of house.
+     * @return average of last day climate.
+     */
+    public DailyClimateData lastDayAverageClimateData(final String thingId) {
+
+        List<InstantClimateData> list = new ArrayList<>();
+        try {
+            list = CsvReadWrite.getDailyClimateSurvey(thingId);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        List<InstantClimateData> averageList = list.stream()
+                .filter(x -> CalendarCheck.isTimestampInCurrentDay(DateConversion.stringToTimestamp(x.getTimestamp())))
+                .collect(Collectors.toList());
+        return this.calculateAggregateInstantData(averageList);
+    }
+
+
     /**
      * Average of last week climate.
      *
@@ -128,25 +106,7 @@ public class ClimateStore {
         List<InstantClimateData> averageList = list.stream()
                 .filter(x -> CalendarCheck.isTimestampInCurrentDay(DateConversion.stringToTimestamp(x.getTimestamp())))
                 .collect(Collectors.toList());
-        DailyClimateData avgClimateData = new DailyClimateData();
-        if (!averageList.isEmpty()) {
-            avgClimateData.setAvgtemp(((float) averageList.stream().mapToDouble(InstantClimateData::getTemperature).average().getAsDouble()));
-            avgClimateData.setMintemp(((float) averageList.stream().mapToDouble(InstantClimateData::getTemperature).min().getAsDouble()));
-            avgClimateData.setMaxtemp(((float) averageList.stream().mapToDouble(InstantClimateData::getTemperature).max().getAsDouble()));
-            avgClimateData.setAvghum(((float) averageList.stream().mapToDouble(InstantClimateData::getHumidity).average().getAsDouble()));
-            avgClimateData.setAvgpress(((float) averageList.stream().mapToDouble(InstantClimateData::getPressure).average().getAsDouble()));
-            avgClimateData.setMinpress(((float) averageList.stream().mapToDouble(InstantClimateData::getPressure).min().getAsDouble()));
-            avgClimateData.setMaxpress(((float) averageList.stream().mapToDouble(InstantClimateData::getPressure).max().getAsDouble()));
-            avgClimateData.setAvgco2(((float) averageList.stream().mapToDouble(InstantClimateData::getCo2).average().getAsDouble()));
-            avgClimateData.setAvgtvoc(((float) averageList.stream().mapToDouble(InstantClimateData::getTvoc).average().getAsDouble()));
-            avgClimateData.setAvgpm2_5(((float) averageList.stream().mapToDouble(InstantClimateData::getPm2_5).average().getAsDouble()));
-            avgClimateData.setAvgpm1_0(((float) averageList.stream().mapToDouble(InstantClimateData::getPm1_0).average().getAsDouble()));
-            avgClimateData.setAvgpm10(((float) averageList.stream().mapToDouble(InstantClimateData::getPm10).average().getAsDouble()));
-            avgClimateData.setAvgwind(((float) averageList.stream().mapToDouble(InstantClimateData::getWind).average().getAsDouble()));
-            avgClimateData.setMaxwind(((float) averageList.stream().mapToDouble(InstantClimateData::getWind).max().getAsDouble()));
-            avgClimateData.setAvguv(((float) averageList.stream().mapToDouble(InstantClimateData::getUv).average().getAsDouble()));
-        }
-        return avgClimateData;
+        return this.calculateAggregateInstantData(averageList);
     }
 
 
@@ -162,25 +122,7 @@ public class ClimateStore {
                     .filter(x -> Objects.equals(x.getThingID(), thingId))
                     .filter(x -> CalendarCheck.isDateInCurrentMonth(DateConversion.stringToTimestamp(x.getTimestamp())))
                     .collect(Collectors.toList());
-            DailyClimateData avgClimateData = new DailyClimateData();
-            if (!averageList.isEmpty()) {
-                avgClimateData.setAvgtemp(((float) averageList.stream().mapToDouble(DailyClimateData::getAvgtemp).average().getAsDouble()));
-                avgClimateData.setMintemp(((float) averageList.stream().mapToDouble(DailyClimateData::getMintemp).min().getAsDouble()));
-                avgClimateData.setMaxtemp(((float) averageList.stream().mapToDouble(DailyClimateData::getMaxtemp).max().getAsDouble()));
-                avgClimateData.setAvghum(((float) averageList.stream().mapToDouble(DailyClimateData::getAvghum).average().getAsDouble()));
-                avgClimateData.setAvgpress(((float) averageList.stream().mapToDouble(DailyClimateData::getAvgpress).average().getAsDouble()));
-                avgClimateData.setMinpress(((float) averageList.stream().mapToDouble(DailyClimateData::getMinpress).min().getAsDouble()));
-                avgClimateData.setMaxpress(((float) averageList.stream().mapToDouble(DailyClimateData::getMaxpress).max().getAsDouble()));
-                avgClimateData.setAvgco2(((float) averageList.stream().mapToDouble(DailyClimateData::getAvgco2).average().getAsDouble()));
-                avgClimateData.setAvgtvoc(((float) averageList.stream().mapToDouble(DailyClimateData::getAvgtvoc).average().getAsDouble()));
-                avgClimateData.setAvgpm2_5(((float) averageList.stream().mapToDouble(DailyClimateData::getAvgpm2_5).average().getAsDouble()));
-                avgClimateData.setAvgpm1_0(((float) averageList.stream().mapToDouble(DailyClimateData::getAvgpm1_0).average().getAsDouble()));
-                avgClimateData.setAvgpm10(((float) averageList.stream().mapToDouble(DailyClimateData::getAvgpm10).average().getAsDouble()));
-                avgClimateData.setAvgwind(((float) averageList.stream().mapToDouble(DailyClimateData::getAvgwind).average().getAsDouble()));
-                avgClimateData.setMaxwind(((float) averageList.stream().mapToDouble(DailyClimateData::getMaxwind).max().getAsDouble()));
-                avgClimateData.setAvguv(((float) averageList.stream().mapToDouble(DailyClimateData::getAvguv).average().getAsDouble()));
-            }
-            return avgClimateData;
+            return this.calculateAggregateDailyData(averageList);
         } catch (IOException e) {
             Log.info(e.toString());
         }
@@ -318,7 +260,7 @@ public class ClimateStore {
             updateList = CsvReadWrite.getHistoryClimateSurveys();
             DailyClimateData lastDay = lastDayAverageClimateData(thingId);
             lastDay.setThingID(thingId);
-            long timestamp = (new Date().getTime() - 14400000L);
+            long timestamp = (new Date().getTime() - WEEK_IN_MILLIS);
             lastDay.setTimestamp(String.valueOf(timestamp));
             updateList.add(lastDay);
             CsvReadWrite.setHistoryClimateSurvey(updateList);

@@ -7,25 +7,26 @@ import io.vertx.ext.web.handler.CorsHandler;
 import server.controllers.*;
 
 public class Routes {
+    private static final int ERROR_CODE = 404;
     private final Router router;
 
     Routes(Vertx vertx,
            SingleDTController singleDTController, PeriodicDTController periodicDTController, HistoryController historyController,
            DataController dataController, SpatialController spatialController) {
         this.router = Router.router(vertx);
-        router.route().handler(BodyHandler.create());
 
-        router.route().handler(CorsHandler.create()
-                .allowedMethod(io.vertx.core.http.HttpMethod.GET)
-                .allowedMethod(io.vertx.core.http.HttpMethod.POST)
-                .allowedMethod(io.vertx.core.http.HttpMethod.OPTIONS)
-                .allowCredentials(true)
-                .allowedHeader("Access-Control-Allow-Headers")
-                .allowedHeader("Authorization")
-                .allowedHeader("Access-Control-Allow-Method")
-                .allowedHeader("Access-Control-Allow-Origin")
-                .allowedHeader("Access-Control-Allow-Credentials")
-                .allowedHeader("Content-Type"));
+        router.route()
+                .handler(BodyHandler.create())
+                .handler(CorsHandler.create()
+                        .allowedMethod(io.vertx.core.http.HttpMethod.GET)
+                        .allowCredentials(true)
+                        .allowedHeader("Access-Control-Allow-Headers")
+                        .allowedHeader("Authorization")
+                        .allowedHeader("Access-Control-Allow-Method")
+                        .allowedHeader("Access-Control-Allow-Origin")
+                        .allowedHeader("Access-Control-Allow-Credentials")
+                        .allowedHeader("Content-Type"));
+
 
         router.put("/api/ditto/:thingId").handler(singleDTController::putDigitalTwin);
         router.get("/api/ditto/:thingId").handler(singleDTController::getDigitalTwin);
@@ -50,8 +51,8 @@ public class Routes {
 
         router.get("/api/all/things").handler(dataController::getIdCoordinateOfDigitalTwin);
 
-        router.errorHandler(404, routingContext -> {
-            routingContext.response().setStatusCode(404).end("Route not found");
+        router.errorHandler(ERROR_CODE, routingContext -> {
+            routingContext.response().setStatusCode(ERROR_CODE).end("Route not found");
         });
 
     }

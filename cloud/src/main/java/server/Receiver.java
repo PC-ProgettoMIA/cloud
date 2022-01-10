@@ -17,7 +17,7 @@ public class Receiver extends AbstractVerticle {
     }
 
     @Override
-    public void start() throws Exception {
+    public void start() {
         initialize();
         getVertx().createHttpServer().requestHandler(this.routes.getRouter()).listen(localPort);
         System.out.println("Server online on port " + localPort);
@@ -28,7 +28,7 @@ public class Receiver extends AbstractVerticle {
         SingleDTController singleDTController = new SingleDTController(client, climateStore);
         PeriodicDTController periodicDTController = new PeriodicDTController(climateStore);
         HistoryController historyController = new HistoryController(climateStore);
-        DataController dataController = new DataController(client, climateStore);
+        DataController dataController = new DataController(client);
         SpatialController spatialController = new SpatialController(client, climateStore);
 
 

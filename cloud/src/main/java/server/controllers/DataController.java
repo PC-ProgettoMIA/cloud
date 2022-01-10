@@ -1,8 +1,8 @@
 package server.controllers;
 
-import dataelaboration.ClimateStore;
 import dataelaboration.model.Coordinate;
 import dataelaboration.model.InfoThing;
+import dataelaboration.utility.Global;
 import dataelaboration.utility.json.JsonToObjectUtility;
 import dataelaboration.utility.json.ObjectToJsonUtility;
 import io.vertx.core.MultiMap;
@@ -23,12 +23,10 @@ import java.util.List;
  */
 public class DataController {
 
-    public WebClient client;
-    public ClimateStore climateStore;
+    private final WebClient client;
 
-    public DataController(WebClient client, ClimateStore climateStore) {
+    public DataController(WebClient client) {
         this.client = client;
-        this.climateStore = climateStore;
     }
 
 
@@ -40,7 +38,7 @@ public class DataController {
     public void getIdCoordinateOfDigitalTwin(RoutingContext ctx) {
         List<InfoThing> list = new ArrayList<>();
 
-        HttpRequest<Buffer> request = client.get(8080, "localhost", "/api/2/search/things");
+        HttpRequest<Buffer> request = client.get(Global.DITTO_PORT, Global.DITTO_ADDRESS, "/api/2/search/things");
         MultiMap headers = request.headers();
         headers.set("content-type", "application/json");
         request.authentication(new UsernamePasswordCredentials("ditto", "ditto"));

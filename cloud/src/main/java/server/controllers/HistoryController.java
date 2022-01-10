@@ -1,6 +1,7 @@
 package server.controllers;
 
 import dataelaboration.ClimateStore;
+import dataelaboration.utility.Global;
 import dataelaboration.utility.json.ObjectToJsonUtility;
 import io.vertx.ext.web.RoutingContext;
 
@@ -9,7 +10,7 @@ import io.vertx.ext.web.RoutingContext;
  */
 public class HistoryController {
 
-    public ClimateStore climateStore;
+    private final ClimateStore climateStore;
 
     public HistoryController(ClimateStore climateStore) {
         this.climateStore = climateStore;
@@ -21,7 +22,7 @@ public class HistoryController {
      * @param ctx, context routing.
      */
     public void historyTemperatureSurveysDT(RoutingContext ctx) {
-        String thingId = ctx.request().getParam("thingId").replace("my.houses:", "");
+        String thingId = ctx.request().getParam("thingId").replace(Global.THING_NAMESPACE, "");
         ctx.response().end(ObjectToJsonUtility.propertyHistoryClimateDataToJson(thingId, "temperature",
                 climateStore.historyPropertySurveysDT(thingId, "temperature")).encodePrettily());
     }
@@ -32,7 +33,7 @@ public class HistoryController {
      * @param ctx, context routing.
      */
     public void historyHumiditySurveysDT(RoutingContext ctx) {
-        String thingId = ctx.request().getParam("thingId").replace("my.houses:", "");
+        String thingId = ctx.request().getParam("thingId").replace(Global.THING_NAMESPACE, "");
         ctx.response().end(ObjectToJsonUtility.propertyHistoryClimateDataToJson(thingId, "humidity",
                 climateStore.historyPropertySurveysDT(thingId, "humidity")).encodePrettily());
     }
@@ -43,7 +44,7 @@ public class HistoryController {
      * @param ctx, context routing.
      */
     public void historyPressureSurveysDT(RoutingContext ctx) {
-        String thingId = ctx.request().getParam("thingId").replace("my.houses:", "");
+        String thingId = ctx.request().getParam("thingId").replace(Global.THING_NAMESPACE, "");
         ctx.response().end(ObjectToJsonUtility.propertyHistoryClimateDataToJson(thingId, "pressure",
                 climateStore.historyPropertySurveysDT(thingId, "pressure")).encodePrettily());
     }
@@ -54,7 +55,7 @@ public class HistoryController {
      * @param ctx, context routing.
      */
     public void historyCo2SurveysDT(RoutingContext ctx) {
-        String thingId = ctx.request().getParam("thingId").replace("my.houses:", "");
+        String thingId = ctx.request().getParam("thingId").replace(Global.THING_NAMESPACE, "");
         ctx.response().end(ObjectToJsonUtility.propertyHistoryClimateDataToJson(thingId, "co2",
                 climateStore.historyPropertySurveysDT(thingId, "co2")).encodePrettily());
     }
@@ -65,7 +66,7 @@ public class HistoryController {
      * @param ctx, context routing.
      */
     public void historyTvocSurveysDT(RoutingContext ctx) {
-        String thingId = ctx.request().getParam("thingId").replace("my.houses:", "");
+        String thingId = ctx.request().getParam("thingId").replace(Global.THING_NAMESPACE, "");
         ctx.response().end(ObjectToJsonUtility.propertyHistoryClimateDataToJson(thingId, "tvoc",
                 climateStore.historyPropertySurveysDT(thingId, "tvoc")).encodePrettily());
     }
@@ -76,7 +77,7 @@ public class HistoryController {
      * @param ctx, context routing.
      */
     public void historyPm2_5SurveysDT(RoutingContext ctx) {
-        String thingId = ctx.request().getParam("thingId").replace("my.houses:", "");
+        String thingId = ctx.request().getParam("thingId").replace(Global.THING_NAMESPACE, "");
         ctx.response().end(ObjectToJsonUtility.propertyHistoryClimateDataToJson(thingId, "pm2_5",
                 climateStore.historyPropertySurveysDT(thingId, "pm2_5")).encodePrettily());
     }
@@ -87,7 +88,7 @@ public class HistoryController {
      * @param ctx, context routing.
      */
     public void historyPm1_0SurveysDT(RoutingContext ctx) {
-        String thingId = ctx.request().getParam("thingId").replace("my.houses:", "");
+        String thingId = ctx.request().getParam("thingId").replace(Global.THING_NAMESPACE, "");
         ctx.response().end(ObjectToJsonUtility.propertyHistoryClimateDataToJson(thingId, "pm1_0",
                 climateStore.historyPropertySurveysDT(thingId, "pm1_0")).encodePrettily());
     }
@@ -98,7 +99,7 @@ public class HistoryController {
      * @param ctx, context routing.
      */
     public void historyPm10SurveysDT(RoutingContext ctx) {
-        String thingId = ctx.request().getParam("thingId").replace("my.houses:", "");
+        String thingId = ctx.request().getParam("thingId").replace(Global.THING_NAMESPACE, "");
         ctx.response().end(ObjectToJsonUtility.propertyHistoryClimateDataToJson(thingId, "pm10",
                 climateStore.historyPropertySurveysDT(thingId, "pm10")).encodePrettily());
     }
@@ -109,7 +110,7 @@ public class HistoryController {
      * @param ctx, context routing.
      */
     public void historyWindSurveysDT(RoutingContext ctx) {
-        String thingId = ctx.request().getParam("thingId").replace("my.houses:", "");
+        String thingId = ctx.request().getParam("thingId").replace(Global.THING_NAMESPACE, "");
         ctx.response().end(ObjectToJsonUtility.propertyHistoryClimateDataToJson(thingId, "wind",
                 climateStore.historyPropertySurveysDT(thingId, "wind")).encodePrettily());
     }
@@ -120,7 +121,7 @@ public class HistoryController {
      * @param ctx, context routing.
      */
     public void historyRainSurveysDT(RoutingContext ctx) {
-        String thingId = ctx.request().getParam("thingId").replace("my.houses:", "");
+        String thingId = ctx.request().getParam("thingId").replace(Global.THING_NAMESPACE, "");
         ctx.response().end(ObjectToJsonUtility.rainHistoryClimateDataToJson(thingId,
                 climateStore.historyRainSurveysDT(thingId)).encodePrettily());
     }
@@ -131,7 +132,7 @@ public class HistoryController {
      * @param ctx, context routing.
      */
     public void historyUvSurveysDT(RoutingContext ctx) {
-        String thingId = ctx.request().getParam("thingId").replace("my.houses:", "");
+        String thingId = ctx.request().getParam("thingId").replace(Global.THING_NAMESPACE, "");
         ctx.response().end(ObjectToJsonUtility.propertyHistoryClimateDataToJson(thingId, "uv",
                 climateStore.historyPropertySurveysDT(thingId, "uv")).encodePrettily());
     }

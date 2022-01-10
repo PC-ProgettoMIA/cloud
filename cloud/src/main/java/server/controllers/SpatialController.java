@@ -19,12 +19,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * Data of Digital twin controller.
+ * Data of digital twin controller.
  */
 public class SpatialController {
 
-    public WebClient client;
-    public ClimateStore climateStore;
+    private WebClient client;
+    private ClimateStore climateStore;
 
     public SpatialController(WebClient client, ClimateStore climateStore) {
         this.client = client;
@@ -60,7 +60,7 @@ public class SpatialController {
                             Coordinate coordinate = JsonToObjectUtility.getJsonCoordinates(items.getJsonObject(i));
                             list.add(new InfoThing(thingId, school, coordinate));
                         }
-                        
+
                         List<InfoThing> filteredList = list.stream()
                                 .filter(x -> x.getCoordinate().getLatitude() > Double.parseDouble(latitude1)
                                         && x.getCoordinate().getLongitude() > Double.parseDouble(longitude1))
@@ -75,7 +75,7 @@ public class SpatialController {
                                 .forEach(jsonArray::add);
                         ctx.response().end(
                                 ObjectToJsonUtility.geographicalAverageDataToJson(
-                                                climateStore.lastDayAverageAreaClimate(
+                                                climateStore.calculateAggregateDailyData(
                                                         filteredList.stream()
                                                                 .map(x -> x.getThingId().replace("my.houses:", ""))
                                                                 .map(e -> climateStore.lastDayAverageClimateData(e))

@@ -29,23 +29,4 @@ public final class DateConversion {
         return timestamp.toString();
     }
 
-//    public static void main(String[] args) {
-//
-//        //Può sempre servire
-//        Date today = new Date();
-//        Timestamp ts1 = new Timestamp(today.getTime());
-//        long tsTime1 = ts1.getTime();
-//
-//        System.out.println(tsTime1);
-//
-//
-//        Timestamp time = new Timestamp(tsTime1);
-//        System.out.println(timestampToString(time));
-//
-//
-//        System.out.println(stringToTimestamp("1639991980209"));
-//
-//
-//    }
-
 }

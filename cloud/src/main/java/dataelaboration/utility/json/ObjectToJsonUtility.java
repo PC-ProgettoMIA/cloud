@@ -143,23 +143,5 @@ public class ObjectToJsonUtility {
         }
         return json;
     }
-
-//    public static void main(String[] args) {
-//        List<Tuple<String, Float>> data = new LinkedList<>();
-//        data.add(new Tuple<>("timestamp", 13F));
-//        data.add(new Tuple<>("timestamp", 11.2F));
-//        JsonObject json = new JsonObject().put("thingId", "ciao");
-//
-//        JsonArray array = new JsonArray();
-//        for (var elem : data) {
-//            JsonObject obj = new JsonObject();
-//
-//            obj.put("timestamp", elem.getTimestamp());
-//            obj.put("data", elem.getProperties());
-//            array.add(obj);
-//        }
-//        json.put("properties", array);
-//        System.out.println(json.encodePrettily());
-//    }
 }
 
