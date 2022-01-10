@@ -244,4 +244,22 @@ public class DailyClimateData {
     public void setAvguv(float avguv) {
         this.avguv = avguv;
     }
+
+    public boolean isEmpty() {
+        return this.avgtemp == Float.MIN_VALUE &&
+                this.mintemp == Float.MIN_VALUE &&
+                this.maxtemp == Float.MIN_VALUE &&
+                this.avghum == Float.MIN_VALUE &&
+                this.avgpress == Float.MIN_VALUE &&
+                this.minpress == Float.MIN_VALUE &&
+                this.maxpress == Float.MIN_VALUE &&
+                this.avgco2 == Float.MIN_VALUE &&
+                this.avgtvoc == Float.MIN_VALUE &&
+                this.avgpm2_5 == Float.MIN_VALUE &&
+                this.avgpm1_0 == Float.MIN_VALUE &&
+                this.avgpm10 == Float.MIN_VALUE &&
+                this.avgwind == Float.MIN_VALUE &&
+                this.maxwind == Float.MIN_VALUE &&
+                this.avguv == Float.MIN_VALUE;
+    }
 }

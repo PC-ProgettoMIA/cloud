@@ -50,25 +50,31 @@ public class ObjectToJsonUtility {
      * @return json object.
      */
     public static JsonObject geographicalAverageDataToJson(final DailyClimateData data) {
-        return new JsonObject("{\n" +
-                "    \"area_properties\": {\n" +
-                "        \"avgtemp\": " + data.getAvgtemp() + ",\n" +
-                "        \"mintemp\": " + data.getMintemp() + ",\n" +
-                "        \"maxtemp\": " + data.getMaxtemp() + ",\n" +
-                "        \"avghum\": " + data.getAvghum() + ",\n" +
-                "        \"avgpress\": " + data.getAvgpress() + ",\n" +
-                "        \"minpress\": " + data.getMinpress() + ",\n" +
-                "        \"maxpress\": " + data.getMaxpress() + ",\n" +
-                "        \"avgco2\": " + data.getAvgco2() + ",\n" +
-                "        \"avgtvoc\": " + data.getAvgtvoc() + ",\n" +
-                "        \"avgpm2_5\": " + data.getAvgpm2_5() + ",\n" +
-                "        \"avgpm1_0\": " + data.getAvgpm1_0() + ",\n" +
-                "        \"avgpm10\": " + data.getAvgpm10() + ",\n" +
-                "        \"avgwind\": " + data.getAvgwind() + ",\n" +
-                "        \"maxwind\": " + data.getMaxwind() + ",\n" +
-                "        \"avguv\": " + data.getAvguv() + "\n" +
-                "    }\n" +
-                "}");
+        if (!data.isEmpty()) {
+            return new JsonObject("{\n" +
+                    "    \"area_properties\": {\n" +
+                    "        \"avgtemp\": " + data.getAvgtemp() + ",\n" +
+                    "        \"mintemp\": " + data.getMintemp() + ",\n" +
+                    "        \"maxtemp\": " + data.getMaxtemp() + ",\n" +
+                    "        \"avghum\": " + data.getAvghum() + ",\n" +
+                    "        \"avgpress\": " + data.getAvgpress() + ",\n" +
+                    "        \"minpress\": " + data.getMinpress() + ",\n" +
+                    "        \"maxpress\": " + data.getMaxpress() + ",\n" +
+                    "        \"avgco2\": " + data.getAvgco2() + ",\n" +
+                    "        \"avgtvoc\": " + data.getAvgtvoc() + ",\n" +
+                    "        \"avgpm2_5\": " + data.getAvgpm2_5() + ",\n" +
+                    "        \"avgpm1_0\": " + data.getAvgpm1_0() + ",\n" +
+                    "        \"avgpm10\": " + data.getAvgpm10() + ",\n" +
+                    "        \"avgwind\": " + data.getAvgwind() + ",\n" +
+                    "        \"maxwind\": " + data.getMaxwind() + ",\n" +
+                    "        \"avguv\": " + data.getAvguv() + "\n" +
+                    "    }\n" +
+                    "}");
+        } else {
+            return new JsonObject();
+        }
+
+
     }
 
     /**
