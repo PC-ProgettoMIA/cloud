@@ -67,7 +67,8 @@ public class SpatialController {
                                 .filter(x -> x.getCoordinate().getLatitude() < Double.parseDouble(latitude2)
                                         && x.getCoordinate().getLongitude() < Double.parseDouble(longitude2))
                                 .map(x -> x.getSchoolName())
-                                .map(e -> new JsonObject().put("name", e)).forEach(jsonArray::add);
+                                //.map(e -> new JsonObject().put("name", e))
+                                .forEach(jsonArray::add);
                         ctx.response().end(
                                 ObjectToJsonUtility.geographicalAverageDataToJson(
                                                 climateStore.lastDayAverageAreaClimate(
