@@ -17,6 +17,7 @@ import io.vertx.ext.web.client.WebClient;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Data of Digital twin controller.
@@ -60,19 +61,24 @@ public class SpatialController {
                             Coordinate coordinate = JsonToObjectUtility.getJsonCoordinates(items.getJsonObject(i));
                             list.add(new InfoThing(thingId, school, coordinate));
                         }
-                        ctx.response().end(
-                                ObjectToJsonUtility.geographicalAverageDataToJson(
-                                        climateStore.lastDayAverageAreaClimate(
-                                                list.stream()
-                                                        .filter(x -> x.getCoordinate().getLatitude() > Double.parseDouble(latitude1)
-                                                                && x.getCoordinate().getLongitude() > Double.parseDouble(longitude1))
-                                                        .filter(x -> x.getCoordinate().getLatitude() < Double.parseDouble(latitude2)
-                                                                && x.getCoordinate().getLongitude() < Double.parseDouble(longitude2))
-                                                        .map(x -> x.getThingId().replace("my.houses:", ""))
-                                                        .map(e -> climateStore.lastDayAverageClimateData(e))
-                                                        .collect(Collectors.toList())
-                                        )
-                                ).encodePrettily());
+                        Stream<InfoThing> stream = list.stream()
+                                .filter(x -> x.getCoordinate().getLatitude() > Double.parseDouble(latitude1)
+                                        && x.getCoordinate().getLongitude() > Double.parseDouble(longitude1))
+                                .filter(x -> x.getCoordinate().getLatitude() < Double.parseDouble(latitude2)
+                                        && x.getCoordinate().getLongitude() < Double.parseDouble(longitude2));
+                        System.out.println(stream.count());
+                        if (stream.findAny().isPresent()) {
+                            ctx.response().end(
+                                    ObjectToJsonUtility.geographicalAverageDataToJson(
+                                            climateStore.lastDayAverageAreaClimate(
+                                                    stream.map(x -> x.getThingId().replace("my.houses:", ""))
+                                                            .map(e -> climateStore.lastDayAverageClimateData(e))
+                                                            .collect(Collectors.toList())
+                                            )
+                                    ).encodePrettily());
+                        } else {
+                            ctx.response().end(new JsonObject().encodePrettily());
+                        }
                     });
 
         }
