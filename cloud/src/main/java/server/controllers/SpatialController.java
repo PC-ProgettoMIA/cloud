@@ -4,7 +4,6 @@ import dataelaboration.ClimateStore;
 import dataelaboration.model.Coordinate;
 import dataelaboration.model.InfoThing;
 import dataelaboration.utility.json.JsonToObjectUtility;
-import dataelaboration.utility.json.ObjectToJsonUtility;
 import io.vertx.core.MultiMap;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonArray;
@@ -16,8 +15,6 @@ import io.vertx.ext.web.client.WebClient;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * Data of Digital twin controller.
@@ -61,24 +58,23 @@ public class SpatialController {
                             Coordinate coordinate = JsonToObjectUtility.getJsonCoordinates(items.getJsonObject(i));
                             list.add(new InfoThing(thingId, school, coordinate));
                         }
-                        Stream<InfoThing> stream = list.stream()
+                        System.out.println(list.stream()
                                 .filter(x -> x.getCoordinate().getLatitude() > Double.parseDouble(latitude1)
                                         && x.getCoordinate().getLongitude() > Double.parseDouble(longitude1))
                                 .filter(x -> x.getCoordinate().getLatitude() < Double.parseDouble(latitude2)
-                                        && x.getCoordinate().getLongitude() < Double.parseDouble(longitude2));
-                        System.out.println(stream.count());
-                        if (stream.count() > 0) {
-                            ctx.response().end(
-                                    ObjectToJsonUtility.geographicalAverageDataToJson(
-                                            climateStore.lastDayAverageAreaClimate(
-                                                    stream.map(x -> x.getThingId().replace("my.houses:", ""))
-                                                            .map(e -> climateStore.lastDayAverageClimateData(e))
-                                                            .collect(Collectors.toList())
-                                            )
-                                    ).encodePrettily());
-                        } else {
-                            ctx.response().end(new JsonObject().encodePrettily());
-                        }
+                                        && x.getCoordinate().getLongitude() < Double.parseDouble(longitude2)).count());
+//                        if (stream.count() > 0) {
+//                            ctx.response().end(
+//                                    ObjectToJsonUtility.geographicalAverageDataToJson(
+//                                            climateStore.lastDayAverageAreaClimate(
+//                                                    stream.map(x -> x.getThingId().replace("my.houses:", ""))
+//                                                            .map(e -> climateStore.lastDayAverageClimateData(e))
+//                                                            .collect(Collectors.toList())
+//                                            )
+//                                    ).encodePrettily());
+//                        } else {
+                        ctx.response().end(new JsonObject().encodePrettily());
+                        //}
                     });
 
         }
