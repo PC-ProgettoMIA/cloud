@@ -67,7 +67,7 @@ public class SpatialController {
                                 .filter(x -> x.getCoordinate().getLatitude() < Double.parseDouble(latitude2)
                                         && x.getCoordinate().getLongitude() < Double.parseDouble(longitude2));
                         System.out.println(stream.count());
-                        if (stream.findAny().isPresent()) {
+                        if (stream.count() > 0) {
                             ctx.response().end(
                                     ObjectToJsonUtility.geographicalAverageDataToJson(
                                             climateStore.lastDayAverageAreaClimate(
