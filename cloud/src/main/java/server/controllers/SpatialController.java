@@ -60,19 +60,28 @@ public class SpatialController {
                             Coordinate coordinate = JsonToObjectUtility.getJsonCoordinates(items.getJsonObject(i));
                             list.add(new InfoThing(thingId, school, coordinate));
                         }
+                        JsonArray jsonArray = new JsonArray();
+                        list.stream()
+                                .filter(x -> x.getCoordinate().getLatitude() > Double.parseDouble(latitude1)
+                                        && x.getCoordinate().getLongitude() > Double.parseDouble(longitude1))
+                                .filter(x -> x.getCoordinate().getLatitude() < Double.parseDouble(latitude2)
+                                        && x.getCoordinate().getLongitude() < Double.parseDouble(longitude2))
+                                .map(x -> x.getSchoolName())
+                                .map(e -> new JsonObject().put("name", e)).forEach(jsonArray::add);
                         ctx.response().end(
                                 ObjectToJsonUtility.geographicalAverageDataToJson(
-                                        climateStore.lastDayAverageAreaClimate(
-                                                list.stream()
-                                                        .filter(x -> x.getCoordinate().getLatitude() > Double.parseDouble(latitude1)
-                                                                && x.getCoordinate().getLongitude() > Double.parseDouble(longitude1))
-                                                        .filter(x -> x.getCoordinate().getLatitude() < Double.parseDouble(latitude2)
-                                                                && x.getCoordinate().getLongitude() < Double.parseDouble(longitude2))
-                                                        .map(x -> x.getThingId().replace("my.houses:", ""))
-                                                        .map(e -> climateStore.lastDayAverageClimateData(e))
-                                                        .collect(Collectors.toList())
-                                        )
-                                ).encodePrettily());
+                                                climateStore.lastDayAverageAreaClimate(
+                                                        list.stream()
+                                                                .filter(x -> x.getCoordinate().getLatitude() > Double.parseDouble(latitude1)
+                                                                        && x.getCoordinate().getLongitude() > Double.parseDouble(longitude1))
+                                                                .filter(x -> x.getCoordinate().getLatitude() < Double.parseDouble(latitude2)
+                                                                        && x.getCoordinate().getLongitude() < Double.parseDouble(longitude2))
+                                                                .map(x -> x.getThingId().replace("my.houses:", ""))
+                                                                .map(e -> climateStore.lastDayAverageClimateData(e))
+                                                                .collect(Collectors.toList())
+                                                )
+                                        ).put("schools", jsonArray)
+                                        .encodePrettily());
                     });
 
         }
