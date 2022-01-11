@@ -5,13 +5,20 @@ import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
-
+/**
+ * Logger of system.
+ */
 public class Log {
 
     private static final String LOG_PATH = FileManager.PATH_TO_RESOURCES + "exception.log";
     private static Logger log = Logger.getLogger("Log");
     private static FileHandler fh;
 
+    /**
+     * Write message on logger.
+     *
+     * @param msg to write.
+     */
     public static void info(final String msg) {
         try {
             fh = new FileHandler(LOG_PATH, true);
@@ -23,9 +30,4 @@ public class Log {
         }
         log.info(msg);
     }
-
-//    public static void main(String[] args) {
-//        Log.info("Ciao");
-//
-//    }
 }
