@@ -3,9 +3,7 @@ package server;
 import dataelaboration.ClimateStore;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.ext.web.client.WebClient;
-import server.controllers.HistoryController;
-import server.controllers.PeriodicDTController;
-import server.controllers.SingleDTController;
+import server.controllers.*;
 
 public class Receiver extends AbstractVerticle {
 
@@ -19,7 +17,7 @@ public class Receiver extends AbstractVerticle {
     }
 
     @Override
-    public void start() throws Exception {
+    public void start() {
         initialize();
         getVertx().createHttpServer().requestHandler(this.routes.getRouter()).listen(localPort);
         System.out.println("Server online on port " + localPort);
@@ -30,6 +28,10 @@ public class Receiver extends AbstractVerticle {
         SingleDTController singleDTController = new SingleDTController(client, climateStore);
         PeriodicDTController periodicDTController = new PeriodicDTController(climateStore);
         HistoryController historyController = new HistoryController(climateStore);
-        this.routes = new Routes(vertx, singleDTController, periodicDTController, historyController);
+        DataController dataController = new DataController(client);
+        SpatialController spatialController = new SpatialController(client, climateStore);
+
+
+        this.routes = new Routes(vertx, singleDTController, periodicDTController, historyController, dataController, spatialController);
     }
 }

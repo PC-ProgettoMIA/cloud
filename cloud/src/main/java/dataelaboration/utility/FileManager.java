@@ -7,9 +7,10 @@ import java.util.Objects;
 
 public class FileManager {
 
-    public static final String PATH_TO_PROJECT = System.getProperty("user.dir") + System.getProperty("file.separator");
-    private static final String HOUSE_PATH = PATH_TO_PROJECT + "src/main/resources/csv/lastweek";
-    public static final Path HISTORY_PATH = Paths.get(PATH_TO_PROJECT + "src/main/resources/csv/history.csv");
+    public static final String PATH_TO_RESOURCES = System.getProperty("user.dir") + System.getProperty("file.separator")
+            + "src/main/resources/";
+    private static final String HOUSE_PATH = PATH_TO_RESOURCES + "csv/lastweek";
+    public static final Path HISTORY_PATH = Paths.get(PATH_TO_RESOURCES + "csv/history.csv");
 
 
     /**

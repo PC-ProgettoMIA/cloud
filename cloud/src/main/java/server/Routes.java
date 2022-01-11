@@ -3,17 +3,30 @@ package server;
 import io.vertx.core.Vertx;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.handler.BodyHandler;
-import server.controllers.HistoryController;
-import server.controllers.PeriodicDTController;
-import server.controllers.SingleDTController;
+import io.vertx.ext.web.handler.CorsHandler;
+import server.controllers.*;
 
 public class Routes {
+    private static final int ERROR_CODE = 404;
     private final Router router;
 
     Routes(Vertx vertx,
-           SingleDTController singleDTController, PeriodicDTController periodicDTController, HistoryController historyController) {
+           SingleDTController singleDTController, PeriodicDTController periodicDTController, HistoryController historyController,
+           DataController dataController, SpatialController spatialController) {
         this.router = Router.router(vertx);
-        router.route().handler(BodyHandler.create());
+
+        router.route()
+                .handler(BodyHandler.create())
+                .handler(CorsHandler.create()
+                        .allowedMethod(io.vertx.core.http.HttpMethod.GET)
+                        .allowCredentials(true)
+                        .allowedHeader("Access-Control-Allow-Headers")
+                        .allowedHeader("Authorization")
+                        .allowedHeader("Access-Control-Allow-Method")
+                        .allowedHeader("Access-Control-Allow-Origin")
+                        .allowedHeader("Access-Control-Allow-Credentials")
+                        .allowedHeader("Content-Type"));
+
 
         router.put("/api/ditto/:thingId").handler(singleDTController::putDigitalTwin);
         router.get("/api/ditto/:thingId").handler(singleDTController::getDigitalTwin);
@@ -34,8 +47,12 @@ public class Routes {
         router.get("/api/history/rain/:thingId").handler(historyController::historyRainSurveysDT);
         router.get("/api/history/uv/:thingId").handler(historyController::historyUvSurveysDT);
 
-        router.errorHandler(404, routingContext -> {
-            routingContext.response().setStatusCode(404).end("Route not found");
+        router.get("/api/spatial").handler(spatialController::getSpatialStatusDigitalTwin);
+
+        router.get("/api/all/things").handler(dataController::getIdCoordinateOfDigitalTwin);
+
+        router.errorHandler(ERROR_CODE, routingContext -> {
+            routingContext.response().setStatusCode(ERROR_CODE).end("Route not found");
         });
 
     }

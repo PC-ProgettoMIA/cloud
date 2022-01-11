@@ -1,10 +1,10 @@
 # Cloud System
 Livello in cui confluiscono tutte le informazioni relative a tutti gli edge. 
 Il cloud è altamente scalabile, per gestire il carico di richieste che riceve in ogni istante. 
-Con i digital twin sempre aggiornati di ogni casina è possibile aggregare dati su larga scala, 
+Con i digital twin di ogni casina sempre aggiornati è possibile aggregare dati su larga scala, 
 oltre ad effettuare analisi di dati sia su scala temporale che spaziale. 
-Grazie alle informazioni che riceve e alle sue risorse computazionali, il cloud mantiene uno storico dei dati al fine di poter visualizzare le condizioni atmosferiche di un particolare territorio nel passato.
-Il cloud può essere interrogato il cloud da qualsiasi computer della rete relativamente alle casine, al loro storico ed alle loro informazioni aggregate, 
+Grazie alle informazioni che riceve e alle sue risorse computazionali, il cloud mantiene uno storico dei dati al fine di poter visualizzare le condizioni atmosferiche di una particolare zona del territorio nel passato.
+Il cloud può essere interrogato da qualsiasi computer della rete relativamente alle casine, al loro storico ed alle loro informazioni aggregate; 
 questo indirizza il progetto verso una soluzione open data, in cui i dati raccolti dagli asset fisici presenti sul territorio sono disponibili a chiunque ne sia interessato.
 
 #### Software Info
@@ -37,7 +37,9 @@ Il **_cloud_** è messo in esecuzione su un VM con i seguenti requisiti:
 - OS:  ubuntu server 20.04
 
 ## Deployment
-Il server è sempre online ed il cloud sempre attivo, ma nel caso di arresto del server per effettuare il riavvio, seguire i seguenti passaggi.
+
+Il server è sempre online ed il cloud sempre attivo ma, in caso di arresto del server, il riavvio di tale dovrà essere eseguito seguendo i seguenti passaggi:
+
 ```bash
 #Abilitare i permessi per l'esecuzione degli script.
 chmod 755 docker-ditto.sh

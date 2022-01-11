@@ -4,8 +4,8 @@ import com.opencsv.CSVWriter;
 import com.opencsv.bean.*;
 import com.opencsv.exceptions.CsvDataTypeMismatchException;
 import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
-import dataelaboration.model.DailyClimateData;
-import dataelaboration.model.InstantClimateData;
+import dataelaboration.model.csvmodel.DailyClimateData;
+import dataelaboration.model.csvmodel.InstantClimateData;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -78,13 +78,10 @@ public class CsvReadWrite {
      */
     public static void setDailyClimateSurvey(final List<InstantClimateData> list, final String thingId) throws IOException {
         try (var writer = Files.newBufferedWriter(FileManager.housePath(thingId), StandardCharsets.UTF_8)) {
-
             StatefulBeanToCsv<InstantClimateData> beanToCsv = new StatefulBeanToCsvBuilder<InstantClimateData>(writer)
                     .withQuotechar(CSVWriter.NO_QUOTE_CHARACTER)
                     .build();
-
             beanToCsv.write(list);
-
         } catch (CsvDataTypeMismatchException | CsvRequiredFieldEmptyException |
                 IOException ex) {
             Logger.getLogger(CsvReadWrite.class.getName()).log(
@@ -101,28 +98,14 @@ public class CsvReadWrite {
      */
     public static void setHistoryClimateSurvey(final List<DailyClimateData> list) throws IOException {
         try (var writer = Files.newBufferedWriter(FileManager.HISTORY_PATH, StandardCharsets.UTF_8)) {
-
             StatefulBeanToCsv<DailyClimateData> beanToCsv = new StatefulBeanToCsvBuilder<DailyClimateData>(writer)
                     .withQuotechar(CSVWriter.NO_QUOTE_CHARACTER)
                     .build();
-
             beanToCsv.write(list);
-
         } catch (CsvDataTypeMismatchException | CsvRequiredFieldEmptyException |
                 IOException ex) {
             Logger.getLogger(CsvReadWrite.class.getName()).log(
                     Level.SEVERE, ex.getMessage(), ex);
         }
     }
-
-
-//    public static void main(String[] args) throws Exception {
-//
-//        System.out.println(new CsvReader().dailyWeatherSurveyDT("01").toString());
-//
-//        System.out.println(new CsvReader().lastWeekWeatherSurveysDT("100").toString());
-//
-//        System.out.println(new CsvReader().lastWeekWeatherSurveysAggregate().toString());
-//    }
-
 }
