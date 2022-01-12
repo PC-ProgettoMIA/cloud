@@ -2,7 +2,7 @@ package server.controllers;
 
 import dataelaboration.model.Coordinate;
 import dataelaboration.model.InfoThing;
-import dataelaboration.utility.Global;
+import dataelaboration.utility.DittoUtility;
 import dataelaboration.utility.json.JsonToObjectUtility;
 import dataelaboration.utility.json.ObjectToJsonUtility;
 import io.vertx.core.MultiMap;
@@ -38,7 +38,7 @@ public class DataController {
     public void getIdCoordinateOfDigitalTwin(RoutingContext ctx) {
         List<InfoThing> list = new ArrayList<>();
 
-        HttpRequest<Buffer> request = client.get(Global.DITTO_PORT, Global.DITTO_ADDRESS, "/api/2/search/things");
+        HttpRequest<Buffer> request = client.get(DittoUtility.DITTO_PORT, DittoUtility.DITTO_ADDRESS, "/api/2/search/things");
         MultiMap headers = request.headers();
         headers.set("content-type", "application/json");
         request.authentication(new UsernamePasswordCredentials("ditto", "ditto"));
