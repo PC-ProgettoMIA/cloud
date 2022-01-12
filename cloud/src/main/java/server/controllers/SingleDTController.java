@@ -2,7 +2,7 @@ package server.controllers;
 
 import dataelaboration.ClimateStore;
 import dataelaboration.model.csvmodel.InstantClimateData;
-import dataelaboration.utility.Global;
+import dataelaboration.utility.DittoUtility;
 import dataelaboration.utility.json.JsonToObjectUtility;
 import io.vertx.core.MultiMap;
 import io.vertx.core.buffer.Buffer;
@@ -33,7 +33,7 @@ public class SingleDTController {
      */
     public void getDigitalTwin(RoutingContext ctx) {
         String thingId = ctx.request().getParam("thingId");
-        HttpRequest<Buffer> request = client.get(Global.DITTO_PORT, Global.DITTO_ADDRESS, "/api/2/things/" + thingId);
+        HttpRequest<Buffer> request = client.get(DittoUtility.DITTO_PORT, DittoUtility.DITTO_ADDRESS, "/api/2/things/" + thingId);
         MultiMap headers = request.headers();
         headers.set("content-type", "application/json");
         request.authentication(new UsernamePasswordCredentials("ditto", "ditto"));
@@ -66,8 +66,8 @@ public class SingleDTController {
                     JsonToObjectUtility.getJsonRain(result),
                     JsonToObjectUtility.getJsonUv(result)
             );
-            this.climateStore.putInstantClimateSurvey(thingId.replace(Global.THING_NAMESPACE, ""), data);
-            HttpRequest<Buffer> request = client.put(Global.DITTO_PORT, Global.DITTO_ADDRESS, "/api/2/things/" + thingId);
+            this.climateStore.putInstantClimateSurvey(thingId.replace(DittoUtility.THING_NAMESPACE, ""), data);
+            HttpRequest<Buffer> request = client.put(DittoUtility.DITTO_PORT, DittoUtility.DITTO_ADDRESS, "/api/2/things/" + thingId);
             MultiMap headers = request.headers();
             headers.set("content-type", "application/json");
             request.authentication(new UsernamePasswordCredentials("ditto", "ditto"));

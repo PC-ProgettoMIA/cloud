@@ -2,7 +2,7 @@ package server.controllers;
 
 import dataelaboration.ClimateStore;
 import dataelaboration.model.csvmodel.DailyClimateData;
-import dataelaboration.utility.Global;
+import dataelaboration.utility.DittoUtility;
 import dataelaboration.utility.json.ObjectToJsonUtility;
 import io.vertx.core.http.HttpServerResponse;
 import io.vertx.ext.web.RoutingContext;
@@ -25,7 +25,7 @@ public class PeriodicDTController {
      * @param ctx, context routing.
      */
     public void dailyWeatherSurveyDT(RoutingContext ctx) {
-        String thingId = ctx.request().getParam("thingId").replace(Global.THING_NAMESPACE, "");
+        String thingId = ctx.request().getParam("thingId").replace(DittoUtility.THING_NAMESPACE, "");
         HttpServerResponse response = ctx.response();
         response.putHeader("content-type", "application/json");
         DailyClimateData day = climateStore.lastDayAverageClimateData(thingId);
@@ -41,7 +41,7 @@ public class PeriodicDTController {
      * @param ctx, context routing.
      */
     public void weeklyWeatherSurveyDT(RoutingContext ctx) {
-        String thingId = ctx.request().getParam("thingId").replace(Global.THING_NAMESPACE, "");
+        String thingId = ctx.request().getParam("thingId").replace(DittoUtility.THING_NAMESPACE, "");
         HttpServerResponse response = ctx.response();
         response.putHeader("content-type", "application/json");
         response.end(ObjectToJsonUtility.dailyClimateDataToJson(
@@ -56,7 +56,7 @@ public class PeriodicDTController {
      * @param ctx, context routing.
      */
     public void monthyWeatherSurveyDT(RoutingContext ctx) {
-        String thingId = ctx.request().getParam("thingId").replace(Global.THING_NAMESPACE, "");
+        String thingId = ctx.request().getParam("thingId").replace(DittoUtility.THING_NAMESPACE, "");
         HttpServerResponse response = ctx.response();
         response.putHeader("content-type", "application/json");
         response.end(ObjectToJsonUtility.dailyClimateDataToJson(
